@@ -237,6 +237,8 @@
       z-index: 3;
       transform-origin: 50% 80%;
       transform-style: preserve-3d;
+      perspective: 900px;
+      perspective-origin: 50% 0%;
       transform: translateZ(0) scale(1);
       pointer-events: none;
       will-change: transform;
@@ -345,9 +347,9 @@
       left: 0; right: 0; top: 0;
       height: 54%;
       z-index: 5;
-      transform-origin: top center;
+      transform-origin: 50% 0%;
       transform-style: preserve-3d;
-      transform: rotateX(0deg);
+      transform: translateZ(1px) rotateX(0deg);
       will-change: transform;
       backface-visibility: hidden;
     }
@@ -374,21 +376,21 @@
     }
     .memory-envelope.is-open:not(.is-closing) .env-flap {
       z-index: 1;
-      animation: flapOpen .85s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+      animation: flapOpen 1.05s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
     .memory-envelope.is-closing .env-flap {
       z-index: 5;
-      animation: flapClose .75s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+      animation: flapClose .9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
     @keyframes flapOpen {
-      0%   { transform: rotateX(0deg); }
-      60%  { transform: rotateX(-145deg); }
-      100% { transform: rotateX(-168deg); }
+      0%   { transform: translateZ(1px) rotateX(0deg); }
+      35%  { transform: translateZ(1px) rotateX(-70deg); }
+      100% { transform: translateZ(1px) rotateX(-165deg); }
     }
     @keyframes flapClose {
-      0%   { transform: rotateX(-168deg); }
-      40%  { transform: rotateX(-90deg); }
-      100% { transform: rotateX(0deg); }
+      0%   { transform: translateZ(1px) rotateX(-165deg); }
+      55%  { transform: translateZ(1px) rotateX(-55deg); }
+      100% { transform: translateZ(1px) rotateX(0deg); }
     }
 
     .env-seal {
@@ -1065,7 +1067,7 @@
         if (envStage) envStage.classList.remove("is-busy");
         envelopeTimer = null;
         if (done) done();
-      }, 900);
+      }, 1050);
     }
 
     function addRipple(e) {
@@ -1096,7 +1098,7 @@
       var foldStart = performance.now();
 
       openEnvelope();
-      var flyGate = performance.now() + 720;
+      var flyGate = performance.now() + 950;
 
       function setFlyer(x, y, w, h, rot, scl, opacity) {
         flyer.style.transform =
