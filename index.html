@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SiteHistory — Що ти хотів сказати?</title>
+  <meta name="description" content="Конверт несказаних слів. Анонімні й підписані історії в спільній базі. Без аналітики й трекерів." />
+  <meta name="theme-color" content="#080a0c" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="referrer" content="no-referrer" />
+  <style>
+    /* Self-hosted fonts — no Google Fonts / no third-party */
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:400;src:url("fonts/manrope-cyrillic-400-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:400;src:url("fonts/manrope-latin-ext-400-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:400;src:url("fonts/manrope-latin-400-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:500;src:url("fonts/manrope-cyrillic-500-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:500;src:url("fonts/manrope-latin-ext-500-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:500;src:url("fonts/manrope-latin-500-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:600;src:url("fonts/manrope-cyrillic-600-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:600;src:url("fonts/manrope-latin-ext-600-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:600;src:url("fonts/manrope-latin-600-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:700;src:url("fonts/manrope-cyrillic-700-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:700;src:url("fonts/manrope-latin-ext-700-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Manrope";font-style:normal;font-display:swap;font-weight:700;src:url("fonts/manrope-latin-700-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:500;src:url("fonts/cormorant-garamond-cyrillic-500-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:500;src:url("fonts/cormorant-garamond-latin-ext-500-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:500;src:url("fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:600;src:url("fonts/cormorant-garamond-cyrillic-600-normal.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:600;src:url("fonts/cormorant-garamond-latin-ext-600-normal.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Cormorant Garamond";font-style:normal;font-display:swap;font-weight:600;src:url("fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+    @font-face{font-family:"Cormorant Garamond";font-style:italic;font-display:swap;font-weight:500;src:url("fonts/cormorant-garamond-cyrillic-500-italic.woff2") format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+    @font-face{font-family:"Cormorant Garamond";font-style:italic;font-display:swap;font-weight:500;src:url("fonts/cormorant-garamond-latin-ext-500-italic.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+    @font-face{font-family:"Cormorant Garamond";font-style:italic;font-display:swap;font-weight:500;src:url("fonts/cormorant-garamond-latin-500-italic.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+
+    :root {
+      --bg: #080a0c;
+      --bg-2: #0e1210;
+      --ink: #f3f0e8;
+      --muted: #8f968c;
+      --line: rgba(243, 240, 232, 0.12);
+      --glass: rgba(255, 255, 255, 0.045);
+      --glass-2: rgba(255, 255, 255, 0.07);
+      --sand: #e0b57a;
+      --sand-soft: rgba(224, 181, 122, 0.28);
+      --sea: #6eb5a4;
+      --sea-soft: rgba(110, 181, 164, 0.22);
+      --ember: #c4785a;
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.45);
+      --radius: 20px;
+      --font-display: "Cormorant Garamond", Georgia, serif;
+      --font-body: "Manrope", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      color: var(--ink);
+      background: var(--bg);
+      overflow-x: hidden;
+      line-height: 1.55;
+    }
+
+    .atmosphere {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 45% at 15% 10%, rgba(196, 120, 90, 0.16), transparent 55%),
+        radial-gradient(ellipse 55% 40% at 85% 20%, rgba(110, 181, 164, 0.14), transparent 50%),
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(224, 181, 122, 0.08), transparent 55%),
+        linear-gradient(180deg, #050607, var(--bg) 35%, var(--bg-2));
+    }
+    .ember {
+      position: absolute; border-radius: 50%; filter: blur(50px); opacity: 0.5;
+      animation: drift 20s ease-in-out infinite alternate;
+    }
+    .ember.a { width: 280px; height: 280px; background: #8a4e38; top: 5%; left: -5%; }
+    .ember.b { width: 240px; height: 240px; background: #2f6b5e; top: 40%; right: -4%; animation-delay: -7s; animation-duration: 24s; }
+    .ember.c { width: 200px; height: 200px; background: #6a5530; bottom: 8%; left: 40%; animation-delay: -13s; }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(30px, -24px) scale(1.1); }
+    }
+    .noise {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    .page {
+      position: relative; z-index: 2;
+      width: min(1080px, calc(100% - 1.5rem));
+      margin: 0 auto;
+      padding: 1.25rem 0 3.5rem;
+    }
+
+    header.top {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 2rem;
+      animation: rise 0.8s ease both;
+    }
+    .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: inherit; }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(145deg, rgba(224,181,122,0.28), rgba(110,181,164,0.12));
+      border: 1px solid var(--line);
+      box-shadow: 0 0 24px var(--sand-soft);
+    }
+    .brand-mark svg { width: 20px; height: 20px; }
+    .brand-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; letter-spacing: 0.02em; }
+    .brand-tag { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    @keyframes rise { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+    .hero { text-align: center; margin-bottom: 1.75rem; }
+    .hero-title {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(2rem, 5.5vw, 3.4rem); line-height: 1.18;
+      max-width: 17ch; margin: 0 auto 1rem; color: var(--ink);
+    }
+    .hero-title .word {
+      display: inline-block; margin: 0 0.1em;
+      opacity: 0; transform: translateY(0.9em) rotateX(-35deg);
+      animation: wordIn 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .hero-title .char {
+      display: inline-block;
+      background: linear-gradient(180deg, #fff8ec 10%, #d7d0c2 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-title .is-accent .char {
+      background: linear-gradient(100deg, #fff 0%, var(--sand) 40%, #f0d4a8 55%, #fff 80%, var(--sea) 100%);
+      background-size: 220% auto; -webkit-background-clip: text; background-clip: text;
+      animation: shimmer 5s linear infinite, floatY 3.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px var(--sand-soft));
+    }
+    .hero-title .is-soft { font-style: italic; }
+    .hero-title .is-soft .char {
+      background: linear-gradient(180deg, #e8d5c4, #c4785a);
+      -webkit-background-clip: text; background-clip: text;
+      animation: softGlow 3s ease-in-out infinite;
+    }
+    .hero-title .is-slash .char { background: none; color: #6a7068; -webkit-background-clip: unset; background-clip: unset; }
+    .hero-sub {
+      color: var(--muted); font-size: clamp(0.92rem, 2vw, 1.05rem);
+      max-width: 34rem; margin: 0 auto; opacity: 0; animation: rise 1s ease 1.2s both;
+    }
+    .hero-sub .glow {
+      background: linear-gradient(90deg, transparent, var(--sand), transparent);
+      background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: sweep 5s ease-in-out infinite;
+    }
+    @keyframes wordIn { to { opacity:1; transform:translateY(0) rotateX(0); } }
+    @keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
+    @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+    @keyframes softGlow { 0%,100%{filter:drop-shadow(0 0 4px rgba(196,120,90,.25))} 50%{filter:drop-shadow(0 0 12px rgba(196,120,90,.5))} }
+    @keyframes sweep { 0%,100%{background-position:100% center} 50%{background-position:0% center} }
+
+    .stage {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+      align-items: stretch; margin-bottom: 2.75rem;
+      animation: rise 1s ease 0.2s both;
+    }
+
+    .jar-panel {
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 70%, rgba(224,181,122,.08), transparent 60%),
+        linear-gradient(165deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    }
+    .panel {
+      padding: 1.35rem 1.15rem 1.25rem; border-radius: calc(var(--radius) + 4px);
+      background: linear-gradient(165deg, var(--glass-2), var(--glass));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.06);
+      position: relative; overflow: visible;
+    }
+    /* backdrop-filter clips overflow in Chromium — keep it off jar panel so lid can lift out */
+    .form-panel {
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
+    .panel::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(135deg, rgba(224,181,122,0.08), transparent 40%, rgba(110,181,164,0.06));
+      opacity: 0.7;
+    }
+
+    .jar-caption {
+      position: relative; z-index: 2; text-align: center;
+      font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+    .jar-scene {
+      position: relative; z-index: 2;
+      width: min(300px, 86vw);
+      height: 300px;
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+      overflow: visible;
+      perspective: 1100px;
+    }
+    .jar-base-glow {
+      position: absolute; left: 12%; right: 12%; bottom: 18px; height: 42px; z-index: 0;
+      background: radial-gradient(ellipse at center, rgba(224,181,122,.55), rgba(110,181,164,.16) 50%, transparent 72%);
+      filter: blur(16px);
+      animation: glowPulse 3.8s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { opacity: .35; transform: scaleX(.9); }
+      to { opacity: 1; transform: scaleX(1.1); }
+    }
+
+    /* ===== HERO ENVELOPE (replaces jar) ===== */
+    .memory-envelope {
+      position: relative;
+      width: min(240px, 72vw);
+      height: min(160px, 48vw);
+      z-index: 3;
+      transform-origin: 50% 100%;
+      transform-style: preserve-3d;
+      transform: translateY(0) rotate(-2deg) scale(1);
+      transition: transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      animation: envIdle 5.5s ease-in-out infinite alternate;
+    }
+    .memory-envelope::after {
+      content: "";
+      position: absolute;
+      left: 10%; right: 10%; bottom: -14px; height: 22px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.4);
+      filter: blur(10px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: .75;
+    }
+    @keyframes envIdle {
+      from { transform: translateY(0) rotate(-2deg) scale(1); }
+      to { transform: translateY(-8px) rotate(2deg) scale(1.03); }
+    }
+    .memory-envelope.is-receiving {
+      animation: none;
+      transform: translateY(-10px) rotate(0deg) scale(1.08);
+      z-index: 5;
+    }
+    .memory-envelope.is-closing {
+      animation: none;
+      transform: translateY(-4px) rotate(-1deg) scale(1.04);
+      z-index: 5;
+    }
+    .memory-envelope.is-settled {
+      animation: envIdle 5.5s ease-in-out infinite alternate;
+      transform: translateY(0) rotate(-2deg) scale(1);
+      z-index: 3;
+    }
+    .memory-envelope.is-pulse {
+      animation: none;
+      transform: translateY(-4px) scale(1.05);
+    }
+    .memory-envelope.is-pulse .env-back {
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.4),
+        0 14px 28px rgba(0,0,0,.4),
+        0 0 36px rgba(224,181,122,.45);
+    }
+    .env-back {
+      position: absolute; inset: 0;
+      border-radius: 6px 6px 8px 8px;
+      background:
+        linear-gradient(160deg, #f9f1e2 0%, #ead8b6 42%, #d4bf96 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.4),
+        0 16px 32px rgba(0,0,0,.4);
+      z-index: 1;
+    }
+    .env-pocket {
+      position: absolute; inset: 0;
+      z-index: 2;
+      overflow: hidden;
+      border-radius: 6px 6px 8px 8px;
+      clip-path: polygon(0 30%, 50% 64%, 100% 30%, 100% 100%, 0 100%);
+      background:
+        linear-gradient(180deg, rgba(210,190,150,.38), transparent 42%),
+        linear-gradient(155deg, #efe2c8, #d9c4a0 70%, #c9b28a);
+      box-shadow: inset 0 10px 18px rgba(80,55,25,.14);
+    }
+    .env-letter-peek {
+      position: absolute;
+      left: 12%; right: 12%;
+      top: 14%;
+      height: 62%;
+      z-index: 2;
+      border-radius: 3px;
+      background:
+        repeating-linear-gradient(180deg, transparent 0 9px, rgba(120,90,50,.09) 9px 10px),
+        linear-gradient(180deg, #fffaf0, #f0e4cc);
+      box-shadow: 0 3px 8px rgba(0,0,0,.14);
+      opacity: 0;
+      transform: translateY(22px) scale(.96);
+      transition: opacity .35s ease, transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .memory-envelope.has-letter .env-letter-peek {
+      opacity: .95;
+      transform: translateY(0) scale(1);
+    }
+    .memory-envelope.is-receiving .env-letter-peek {
+      opacity: 0;
+      transform: translateY(28px) scale(.9);
+      transition: none;
+    }
+    .env-front {
+      position: absolute; inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background:
+        linear-gradient(155deg, transparent 42%, rgba(180,150,100,.16) 50%, transparent 58%);
+    }
+    .env-front::before,
+    .env-front::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 72%;
+      height: 78%;
+      background: linear-gradient(180deg, #f4ead4, #dfcba8 55%, #cbb48a);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+    }
+    .env-front::before {
+      left: 0;
+      clip-path: polygon(0 0, 0 100%, 100% 100%);
+      border-radius: 0 0 0 8px;
+    }
+    .env-front::after {
+      right: 0;
+      clip-path: polygon(100% 0, 0 100%, 100% 100%);
+      border-radius: 0 0 8px 0;
+      background: linear-gradient(200deg, #efe0c4, #d4bc92 60%, #c2a878);
+    }
+    .env-flap {
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 54%;
+      z-index: 5;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      transform: rotateX(0deg);
+      transition: transform 1.05s cubic-bezier(0.4, 0.05, 0.2, 1);
+      will-change: transform;
+    }
+    .env-flap::before {
+      content: "";
+      position: absolute; inset: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background:
+        linear-gradient(180deg, #fff8ea 0%, #ead7b4 48%, #c9ad80 100%);
+      box-shadow:
+        inset 0 2px 0 rgba(255,255,255,.5),
+        0 8px 16px rgba(0,0,0,.22);
+      backface-visibility: hidden;
+    }
+    .env-flap::after {
+      content: "";
+      position: absolute; inset: 0;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background:
+        linear-gradient(0deg, #d8c29a 0%, #c4a878 55%, #a88e62 100%);
+      transform: rotateX(180deg);
+      backface-visibility: hidden;
+      box-shadow: inset 0 -2px 8px rgba(0,0,0,.22);
+    }
+    .memory-envelope.is-open .env-flap {
+      transform: rotateX(-175deg);
+      transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 1;
+    }
+    .memory-envelope.is-closing .env-flap {
+      transform: rotateX(0deg);
+      transition: transform 1s cubic-bezier(0.33, 1, 0.4, 1);
+      z-index: 5;
+    }
+    .env-seal {
+      position: absolute;
+      left: 50%; top: 40%;
+      width: 38px; height: 38px;
+      margin: -19px 0 0 -19px;
+      z-index: 6;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, #e8a070, #c4785a 45%, #8a3e2e 100%);
+      box-shadow:
+        0 4px 12px rgba(0,0,0,.42),
+        inset 0 1px 3px rgba(255,255,255,.45),
+        0 0 0 1px rgba(120,50,30,.35);
+      transform: scale(1);
+      opacity: 1;
+      transition:
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease,
+        box-shadow 0.55s ease;
+    }
+    .env-seal::before {
+      content: "✦";
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      font-size: 15px; color: rgba(255,235,210,.92);
+      text-shadow: 0 1px 1px rgba(0,0,0,.25);
+      line-height: 1;
+    }
+    .memory-envelope.is-open .env-seal,
+    .memory-envelope.is-receiving .env-seal {
+      transform: scale(0.12) translateY(-28px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .memory-envelope.is-closing .env-seal {
+      transform: scale(1.22);
+      opacity: 1;
+      box-shadow:
+        0 4px 14px rgba(0,0,0,.48),
+        inset 0 1px 3px rgba(255,255,255,.5),
+        0 0 28px rgba(196,120,90,.7);
+      transition:
+        transform 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) 0.4s,
+        opacity 0.35s ease 0.35s,
+        box-shadow 0.75s ease 0.4s;
+    }
+    .memory-envelope.is-settled .env-seal {
+      transform: scale(1);
+      opacity: 1;
+      box-shadow:
+        0 4px 12px rgba(0,0,0,.42),
+        inset 0 1px 3px rgba(255,255,255,.45),
+        0 0 0 1px rgba(120,50,30,.35);
+    }
+    .env-glow {
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(224,181,122,.55), transparent 70%);
+      opacity: 0;
+      z-index: 0;
+      pointer-events: none;
+      transition: opacity .5s ease;
+      filter: blur(14px);
+      transform: scale(1.15);
+    }
+    .memory-envelope.is-open .env-glow,
+    .memory-envelope.is-receiving .env-glow {
+      opacity: 1;
+      animation: envGlowPulse 1.1s ease-in-out infinite alternate;
+    }
+    @keyframes envGlowPulse {
+      from { opacity: .45; transform: scale(1.05); }
+      to { opacity: 1; transform: scale(1.28); }
+    }
+
+    .jar-count {
+      position: relative; z-index: 2; text-align: center;
+      margin-top: .85rem; font-size: .84rem; color: var(--muted);
+    }
+    .jar-count strong { color: var(--sand); font-weight: 600; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ember, .jar-base-glow, .memory-envelope, .env-glow { animation: none !important; }
+      .env-flap, .env-seal, .memory-envelope { transition-duration: .01ms !important; }
+    }
+
+
+
+    .form-panel h2 { font-family: var(--font-display); font-size:1.7rem; font-weight:500; margin-bottom:.3rem; position:relative; z-index:1; }
+    .hint { color:var(--muted); font-size:.9rem; margin-bottom:1rem; position:relative; z-index:1; }
+    .field { margin-bottom:.75rem; position:relative; z-index:1; }
+    .field textarea {
+      width:100%; min-height:120px; resize:vertical; padding:.95rem 1rem; border-radius:14px;
+      border:1px solid var(--line); background:rgba(6,8,8,.55); color:var(--ink);
+      font-family:var(--font-body); font-size:.95rem; line-height:1.6; outline:none;
+      transition: border-color .3s, box-shadow .3s, background .3s;
+    }
+    .field textarea::placeholder { color: rgba(143,150,140,.65); }
+    .field textarea:focus {
+      border-color: rgba(224,181,122,.5); background: rgba(8,10,10,.7);
+      box-shadow: 0 0 0 4px var(--sand-soft), 0 0 28px rgba(224,181,122,.15);
+    }
+    .identity-row { display:flex; flex-direction:column; align-items:flex-start; gap:.6rem; margin-bottom:.85rem; position:relative; z-index:1; }
+    .anon-toggle {
+      display:grid; grid-template-columns:1fr 1fr; gap:.28rem; padding:.18rem; border-radius:12px;
+      background:rgba(6,8,8,.45); border:1px solid var(--line); max-width:250px;
+    }
+    .anon-toggle input { position:absolute; opacity:0; pointer-events:none; }
+    .anon-toggle label {
+      display:flex; align-items:center; justify-content:center; padding:.45rem .35rem; border-radius:9px;
+      cursor:pointer; font-size:.78rem; font-weight:500; color:var(--muted); user-select:none;
+      transition: background .25s, color .25s, box-shadow .25s;
+    }
+    .anon-toggle input:checked + label {
+      color:#1a140e; background: linear-gradient(135deg, #f0d7b0, #e0b57a 50%, #c9e4da);
+      box-shadow: 0 6px 16px var(--sand-soft);
+    }
+    .name-field { display:none; width:100%; max-width:280px; animation: rise .3s ease both; }
+    .name-field.show { display:block; }
+    .name-field input {
+      width:100%; padding:.7rem .85rem; border-radius:11px; border:1px solid var(--line);
+      background:rgba(6,8,8,.55); color:var(--ink); font-family:var(--font-body); font-size:.9rem; outline:none;
+    }
+    .name-field input:focus { border-color:rgba(224,181,122,.5); box-shadow:0 0 0 3px var(--sand-soft); }
+    .meta-row {
+      display:flex; justify-content:space-between; align-items:center; gap:.5rem;
+      margin-bottom:.85rem; font-size:.72rem; color:var(--muted); position:relative; z-index:1; flex-wrap:wrap;
+    }
+    .char-count.warn { color: var(--sand); }
+    .char-count.over { color: var(--ember); }
+    .form-actions { display:flex; justify-content:center; position:relative; z-index:1; }
+    .submit-btn {
+      position:relative; display:inline-flex; align-items:center; justify-content:center;
+      min-width:160px; padding:.62rem 1.25rem; border:none; border-radius:999px; cursor:pointer;
+      font-family:var(--font-body); font-size:.88rem; font-weight:600; color:#1a140e;
+      background: linear-gradient(135deg, #f3e0c2, #e0b57a 45%, #9fd0c2);
+      box-shadow: 0 8px 22px var(--sand-soft), inset 0 1px 0 rgba(255,255,255,.5);
+      transition: transform .2s, box-shadow .25s, filter .25s; overflow:hidden;
+    }
+    .submit-btn:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.04); }
+    .submit-btn:active:not(:disabled) { transform:translateY(1px) scale(.98); }
+    .submit-btn:disabled { opacity:.6; cursor:not-allowed; }
+    .submit-btn.sending { animation: btnPulse .9s ease; }
+    .submit-btn .ripple {
+      position:absolute; border-radius:50%; background:rgba(255,255,255,.4); transform:scale(0);
+      animation: ripple .65s ease-out; pointer-events:none;
+    }
+    @keyframes btnPulse { 0%{box-shadow:0 0 0 0 var(--sand-soft)} 70%{box-shadow:0 0 0 16px transparent} 100%{box-shadow:0 8px 22px var(--sand-soft)} }
+    @keyframes ripple { to{transform:scale(4);opacity:0} }
+    .form-note { margin-top:.55rem; text-align:center; font-size:.7rem; color:var(--muted); position:relative; z-index:1; }
+
+    .flyer {
+      position:fixed; z-index:9999; pointer-events:none; display:flex; align-items:center; justify-content:center;
+      padding:8px 10px; line-height:1.25; color:rgba(40,30,20,.65); overflow:hidden;
+      box-shadow: 0 16px 36px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.3), 0 0 24px var(--sand-soft);
+      will-change: left, top, transform; transform-origin:center; border:1px solid rgba(255,255,255,.3);
+    }
+
+    .wall { animation: rise 1s ease .35s both; }
+    .wall-head { margin-bottom:1.1rem; }
+    .wall-head h2 { font-family:var(--font-display); font-size:clamp(1.5rem,3.5vw,2.1rem); font-weight:500; }
+    .wall-head p { color:var(--muted); font-size:.9rem; max-width:28rem; }
+    .stories { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:.85rem; }
+    .story-card {
+      position:relative; padding:.95rem .9rem 1rem; border-radius:4px 12px 8px 10px;
+      display:flex; flex-direction:column; gap:.5rem; cursor:pointer;
+      transform:rotate(var(--tilt,-1.5deg));
+      transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+      box-shadow: 0 10px 22px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.35);
+      opacity:0; animation: cardIn .6s cubic-bezier(.22,1,.36,1) forwards;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .story-card:hover { transform:translateY(-8px) scale(1.02) rotate(var(--hover-tilt,2deg)); z-index:5;
+      box-shadow: 0 18px 34px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.1); }
+    .story-card .tape {
+      position:absolute; top:-7px; left:50%; transform:translateX(-50%) rotate(-2deg);
+      width:46px; height:12px; border-radius:2px; opacity:.7;
+      background: linear-gradient(180deg, rgba(255,255,255,.4), rgba(255,255,255,.12));
+    }
+    .story-text {
+      flex:1; font-family:var(--font-display); font-size:1rem; line-height:1.35;
+      color:rgba(28,22,18,.88); word-break:break-word;
+    }
+    .story-more { font-size:.66rem; color:rgba(40,30,20,.42); font-weight:600; }
+    .story-meta { display:flex; justify-content:space-between; gap:.4rem; font-size:.66rem; color:rgba(40,30,20,.48); font-weight:500; }
+    @keyframes cardIn {
+      from{opacity:0;transform:translateY(18px) scale(.96) rotate(var(--tilt,-1.5deg))}
+      to{opacity:1;transform:translateY(0) scale(1) rotate(var(--tilt,-1.5deg))}
+    }
+    .tone-amber,.reader-card.tone-amber{background:linear-gradient(160deg,#ffe7b3,#f5d08a)}
+    .tone-rose,.reader-card.tone-rose{background:linear-gradient(160deg,#ffc2d1,#f39aad)}
+    .tone-sky,.reader-card.tone-sky{background:linear-gradient(160deg,#c8e9ff,#9fd0f5)}
+    .tone-mint,.reader-card.tone-mint{background:linear-gradient(160deg,#c5f5df,#93e0bc)}
+    .tone-lilac,.reader-card.tone-lilac{background:linear-gradient(160deg,#ddd0ff,#c0acf5)}
+    .tone-peach,.reader-card.tone-peach{background:linear-gradient(160deg,#ffd2c4,#f5b3a0)}
+    .tone-cream,.reader-card.tone-cream{background:linear-gradient(160deg,#fff4d6,#f0e2b8)}
+    .empty-state {
+      grid-column:1/-1; text-align:center; padding:2.5rem 1rem; border-radius:var(--radius);
+      border:1px dashed var(--line); background:rgba(255,255,255,.03); color:var(--muted);
+    }
+
+    footer {
+      margin-top:2.75rem; padding-top:1.25rem; border-top:1px solid var(--line);
+      text-align:center; color:var(--muted); font-size:.78rem;
+    }
+    footer span { color: rgba(243,240,232,.7); }
+    .footer-links { margin-top:.5rem; }
+    .footer-links a { color:var(--sand); text-decoration:none; border-bottom:1px solid rgba(224,181,122,.35); }
+    .footer-links a:hover { color:#f0d4a8; }
+
+    .toast {
+      position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(140%);
+      z-index:3000; padding:.85rem 1.25rem; border-radius:999px;
+      background:rgba(16,18,16,.96); border:1px solid rgba(224,181,122,.45);
+      color:var(--ink); font-size:.88rem; box-shadow:0 12px 36px rgba(0,0,0,.5), 0 0 24px var(--sand-soft);
+      transition: transform .45s cubic-bezier(.22,1,.36,1); max-width:calc(100vw - 2rem); text-align:center;
+      pointer-events:none;
+    }
+    .toast.show { transform:translateX(-50%) translateY(0); }
+
+    .reader {
+      position:fixed; inset:0; z-index:2000; display:grid; place-items:center; padding:1rem;
+      background:rgba(5,6,6,.75); backdrop-filter:blur(10px);
+      opacity:0; pointer-events:none; transition:opacity .28s ease;
+    }
+    .reader.open { opacity:1; pointer-events:auto; }
+    .reader-card {
+      width:min(420px,100%); max-height:min(78vh,640px); overflow:auto;
+      padding:1.3rem 1.2rem 1.15rem; border-radius:8px 18px 14px 16px; position:relative;
+      transform:translateY(16px) scale(.96); transition:transform .32s cubic-bezier(.22,1,.36,1);
+      box-shadow:0 24px 60px rgba(0,0,0,.45);
+    }
+    .reader.open .reader-card { transform:translateY(0) scale(1); }
+    .reader-card .tape {
+      position:absolute; top:-8px; left:50%; transform:translateX(-50%) rotate(-2deg);
+      width:60px; height:15px; border-radius:2px;
+      background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,.12));
+    }
+    .reader-text {
+      font-family:var(--font-display); font-size:1.22rem; line-height:1.45;
+      color:rgba(28,22,18,.9); white-space:pre-wrap; word-break:break-word; margin:.35rem 0 1rem;
+    }
+    .reader-meta { display:flex; justify-content:space-between; gap:.75rem; font-size:.76rem; color:rgba(40,30,20,.55); font-weight:500; }
+    .reader-close {
+      position:absolute; top:.5rem; right:.5rem; width:32px; height:32px; border:none; border-radius:999px;
+      background:rgba(0,0,0,.12); color:rgba(30,22,18,.75); cursor:pointer; font-size:1.1rem;
+    }
+
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+
+    @media (max-width:860px) {
+      .stage { grid-template-columns:1fr; gap:1rem; margin-bottom:2rem; }
+      .hero-title { font-size:clamp(1.6rem,7vw,2.3rem); max-width:100%; }
+    }
+    @media (max-width:640px) {
+      .page { width:calc(100% - 1rem); padding:.85rem 0 3rem; }
+      header.top { margin-bottom:1rem; }
+      .brand-mark { width:36px; height:36px; }
+      .brand-name { font-size:1.2rem; }
+      .panel { padding:1rem .9rem; border-radius:16px; }
+      .jar-scene { height:250px; width:min(260px,88vw); }
+      .memory-envelope { width:min(210px,78vw); height:min(140px,52vw); }
+      .form-panel h2 { font-size:1.4rem; }
+      .field textarea { min-height:92px; padding:.8rem .85rem; font-size:.9rem; }
+      .anon-toggle { width:100%; max-width:230px; }
+      .anon-toggle label { padding:.4rem .3rem; font-size:.74rem; }
+      .submit-btn { min-width:148px; padding:.55rem 1.05rem; font-size:.84rem; }
+      .stories { grid-template-columns:1fr 1fr; gap:.55rem; }
+      .story-card { padding:.65rem .6rem .7rem; gap:.32rem; }
+      .story-text {
+        font-size:.8rem; line-height:1.28;
+        display:-webkit-box; -webkit-line-clamp:5; line-clamp:5; -webkit-box-orient:vertical; overflow:hidden;
+      }
+      .story-meta { font-size:.58rem; }
+      .wall-head h2 { font-size:1.4rem; }
+    }
+    @media (max-width:380px) {
+      .stories { grid-template-columns:1fr; }
+      .story-text { font-size:.9rem; -webkit-line-clamp:4; line-clamp:4; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true">
+    <div class="ember a"></div>
+    <div class="ember b"></div>
+    <div class="ember c"></div>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="top">
+      <a class="brand" href="index.html">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55">
+            <path d="M3.5 8.5 12 14l8.5-5.5"/>
+            <path d="M4 8h16v10a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18V8Z"/>
+            <path d="M4 8l8 5.5L20 8" opacity="0.7"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-name">SiteHistory</div>
+          <div class="brand-tag">конверт несказаного</div>
+        </div>
+      </a>
+    </header>
+
+    <section class="hero">
+      <h1 class="hero-title" id="heroTitle" aria-label="Що ти хотів сказати, але так і не зміг / не встиг?">
+        <span class="word" data-delay="0">Що</span>
+        <span class="word" data-delay="1">ти</span>
+        <span class="word is-accent" data-delay="2">хотів</span>
+        <span class="word is-accent" data-delay="3">сказати,</span>
+        <span class="word is-soft" data-delay="4">але</span>
+        <span class="word is-soft" data-delay="5">так</span>
+        <span class="word is-soft" data-delay="6">і</span>
+        <span class="word is-soft" data-delay="7">не</span>
+        <span class="word is-soft" data-delay="8">зміг</span>
+        <span class="word is-slash" data-delay="9">/</span>
+        <span class="word" data-delay="10">не</span>
+        <span class="word" data-delay="11">встиг?</span>
+      </h1>
+      <p class="hero-sub">Залиш те, що залишилось між <span class="glow">серцем і словами</span> — анонімно або з іменем. Історії зберігаються в спільній базі.</p>
+    </section>
+
+    <section class="stage" aria-label="Конверт і форма">
+      <div class="panel jar-panel">
+        <div class="jar-caption">Конверт несказаного</div>
+        <div class="jar-scene" role="img" aria-label="Конверт для несказаних листів">
+          <div class="jar-base-glow" aria-hidden="true"></div>
+          <div class="memory-envelope has-letter" id="jarEnvelope" aria-hidden="true">
+            <div class="env-glow"></div>
+            <div class="env-back"></div>
+            <div class="env-letter-peek"></div>
+            <div class="env-pocket"></div>
+            <div class="env-front"></div>
+            <div class="env-flap"></div>
+            <div class="env-seal"></div>
+          </div>
+        </div>
+        <p class="jar-count">Листів у конверті: <strong id="jarCount">0</strong></p>
+      </div>
+
+      <div class="panel form-panel">
+        <h2>Напиши сюди</h2>
+        <p class="hint">Без суддів. Можеш лишитись невидимим — або підписатись.</p>
+        <form id="storyForm" novalidate>
+          <div class="field">
+            <label class="sr-only" for="storyInput">Твій текст</label>
+            <textarea id="storyInput" maxlength="320" placeholder="Я хотів сказати тобі те, що так і лишилось між нами…" required></textarea>
+          </div>
+          <div class="identity-row">
+            <div class="anon-toggle" role="radiogroup" aria-label="Режим відправки">
+              <input type="radio" id="modeAnon" name="identityMode" value="anon" checked />
+              <label for="modeAnon">Анонімно</label>
+              <input type="radio" id="modeNamed" name="identityMode" value="named" />
+              <label for="modeNamed">З іменем</label>
+            </div>
+            <div class="name-field" id="nameField">
+              <label class="sr-only" for="authorName">Імʼя</label>
+              <input type="text" id="authorName" maxlength="40" placeholder="Як підписати? (наприклад, Оля)" autocomplete="nickname" />
+            </div>
+          </div>
+          <div class="meta-row">
+            <span id="privacyHint">Анонімно · текст у спільній базі без імені</span>
+            <span class="char-count" id="charCount">0 / 320</span>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="submit-btn" id="submitBtn"><span class="btn-label">Відправити в конверт</span></button>
+          </div>
+          <p class="form-note">Мінімум 8 слів і зміст. Без цифр і «привіт, як справи».</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="wall" id="wall" aria-label="Стіна історій">
+      <div class="wall-head">
+        <h2>Стіна несказаних історій</h2>
+        <p>Натисни на стикер, щоб прочитати повністю.</p>
+      </div>
+      <div class="stories" id="stories"></div>
+    </section>
+
+    <footer>
+      <p>SiteHistory · <span>соціальний експеримент памʼяті</span> · без логів і аналітики</p>
+      <p class="footer-links"><a href="privacy.html">Політика конфіденційності</a></p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="reader" id="reader" aria-hidden="true">
+    <div class="reader-card tone-cream" id="readerCard" role="dialog" aria-modal="true" aria-labelledby="readerText">
+      <button type="button" class="reader-close" id="readerClose" aria-label="Закрити">×</button>
+      <div class="tape" aria-hidden="true"></div>
+      <p class="reader-text" id="readerText"></p>
+      <div class="reader-meta"><span id="readerAuthor"></span><span id="readerTime"></span></div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var API_BASE = "/sitehistory/api";
+    var MAX_LEN = 320;
+    var MIN_CHARS = 48;
+    var MIN_WORDS = 8;
+    var TRIVIAL_TOKENS = {
+      "привіт":1,"привет":1,"hello":1,"hi":1,"hey":1,"йо":1,"ку":1,
+      "як":1,"справи":1,"как":1,"дела":1,"how":1,"are":1,"you":1,
+      "whats":1,"what":1,"up":1,"ти":1,"там":1,"норм":1,"нормально":1,
+      "ага":1,"угу":1,"ок":1,"окей":1,"супер":1,"круто":1,"тест":1,"test":1
+    };
+
+    function tokenizeWords(text) {
+      return (text.match(/[A-Za-zА-Яа-яЁёІіЇїЄєҐґʼ']+/g) || []);
+    }
+
+    function validateStoryText(text) {
+      var raw = String(text || "").trim();
+      if (!raw) return "Напиши хоч кілька слів…";
+      if (raw.length < MIN_CHARS) return "Занадто коротко — мінімум " + MIN_CHARS + " символів і зміст, не «привіт».";
+      var words = tokenizeWords(raw);
+      if (words.length < MIN_WORDS) return "Потрібно щонайменше " + MIN_WORDS + " слів — це конверт несказаного, не чат.";
+      var letters = raw.match(/[A-Za-zА-Яа-яЁёІіЇїЄєҐґ]/g) || [];
+      var digits = raw.match(/\d/g) || [];
+      var alnum = letters.length + digits.length;
+      if (digits.length && alnum && digits.length / alnum > 0.25) return "Забагато цифр — напиши словами.";
+      if (/\d{5,}/.test(raw)) return "Набір цифр не підходить. Спробуй живий текст.";
+      if (!/[A-Za-zА-Яа-яЁёІіЇїЄєҐґ]/.test(raw)) return "Потрібні слова, не лише символи чи цифри.";
+      if (/(.)\1{4,}/i.test(raw)) return "Схоже на випадковий набір символів. Перепиши осмислено.";
+      var lower = raw.toLowerCase().replace(/ʼ/g, "'");
+      var compact = lower.replace(/\s+/g, " ").trim();
+      var nospace = lower.replace(/[\s\W_]+/g, "");
+      var trivialExact = ["привіт","привет","hello","hi","як справи","как дела","how are you","тест","test","ok","ок"];
+      for (var i = 0; i < trivialExact.length; i++) {
+        if (compact === trivialExact[i] || nospace === trivialExact[i].replace(/\s+/g, "")) {
+          return "Це занадто буденно для банки несказаного.";
+        }
+      }
+      var wordL = words.map(function (w) { return w.toLowerCase(); });
+      var joined3 = wordL.slice(0, 3).join(" ");
+      if (joined3 === "привіт як справи" || joined3 === "привет как дела" || joined3 === "hello how are") {
+        return "Схоже на звичайний чат («привіт, як справи»). Залиш щось глибше.";
+      }
+      if (wordL[0] && (wordL[0] === "привіт" || wordL[0] === "привет" || wordL[0] === "hello" || wordL[0] === "hi") && wordL.length <= 14) {
+        var depth = {"вибач":1,"пробач":1,"люблю":1,"кохаю":1,"скучаю":1,"боюсь":1,"дякую":1,"шкода":1,"мамо":1,"тату":1,"хотів":1,"хотіла":1,"сказати":1,"прости":1,"love":1,"sorry":1};
+        var hasDepth = false;
+        for (var d = 0; d < wordL.length; d++) if (depth[wordL[d]]) { hasDepth = true; break; }
+        if (!hasDepth) return "Схоже на звичайний чат («привіт, як справи»). Залиш щось глибше.";
+      }
+      if (wordL.length <= 12) {
+        var triv = 0;
+        for (var j = 0; j < wordL.length; j++) if (TRIVIAL_TOKENS[wordL[j]]) triv++;
+        if (triv >= Math.max(4, Math.floor(wordL.length * 0.7))) return "Схоже на звичайний чат («привіт, як справи»). Залиш щось глибше.";
+      }
+      var mash = ["qwerty","asdfgh","zxcvbn","йцукен","фівапролдж","asdf","фыва"];
+      for (var m = 0; m < mash.length; m++) {
+        if (nospace.indexOf(mash[m]) >= 0) return "Схоже на випадковий набір клавіш.";
+      }
+      if (words.length === 1 && raw.length >= MIN_CHARS) return "Розділи текст на слова — один суцільний набір літер не підходить.";
+      return "";
+    }
+
+    var TONES = ["tone-amber","tone-rose","tone-sky","tone-mint","tone-lilac","tone-peach","tone-cream"];
+    var FLYER_COLORS = [
+      "linear-gradient(135deg,#ffe7b3,#f5d08a)",
+      "linear-gradient(135deg,#ffc2d1,#f39aad)",
+      "linear-gradient(135deg,#c8e9ff,#9fd0f5)",
+      "linear-gradient(135deg,#c5f5df,#93e0bc)",
+      "linear-gradient(135deg,#ddd0ff,#c0acf5)",
+      "linear-gradient(135deg,#ffd2c4,#f5b3a0)",
+      "linear-gradient(135deg,#fff4d6,#f0e2b8)"
+    ];
+    var NOTE_COLORS = {
+      "tone-amber":"linear-gradient(145deg,#ffe2a8,#efc06e)",
+      "tone-rose":"linear-gradient(145deg,#ffb0c4,#ef7f9c)",
+      "tone-sky":"linear-gradient(145deg,#b6e4ff,#74bce8)",
+      "tone-mint":"linear-gradient(145deg,#a8f5d4,#5ed8a8)",
+      "tone-lilac":"linear-gradient(145deg,#d4c2ff,#a890ef)",
+      "tone-peach":"linear-gradient(145deg,#ffc4b4,#ef9478)",
+      "tone-cream":"linear-gradient(145deg,#fff0b0,#e8c86a)"
+    };
+
+    var form = document.getElementById("storyForm");
+    var input = document.getElementById("storyInput");
+    var charCount = document.getElementById("charCount");
+    var submitBtn = document.getElementById("submitBtn");
+    var storiesEl = document.getElementById("stories");
+    var jarCount = document.getElementById("jarCount");
+    var toast = document.getElementById("toast");
+    var modeNamed = document.getElementById("modeNamed");
+    var nameField = document.getElementById("nameField");
+    var authorName = document.getElementById("authorName");
+    var privacyHint = document.getElementById("privacyHint");
+    var reader = document.getElementById("reader");
+    var readerCard = document.getElementById("readerCard");
+    var readerText = document.getElementById("readerText");
+    var readerAuthor = document.getElementById("readerAuthor");
+    var readerTime = document.getElementById("readerTime");
+    var jarEnvelope = document.getElementById("jarEnvelope");
+    var btnLabel = submitBtn.querySelector(".btn-label");
+
+    var stories = [];
+    var busy = false;
+    var toastTimer = null;
+
+    function apiUrl(path) {
+      return API_BASE + path;
+    }
+
+    function normalizeStory(s) {
+      if (!s || typeof s !== "object") return null;
+      return {
+        id: String(s.id || ""),
+        text: String(s.text || ""),
+        createdAt: Number(s.createdAt) || Date.now(),
+        tone: TONES.indexOf(s.tone) >= 0 ? s.tone : "tone-cream",
+        anonymous: s.anonymous !== false,
+        author: s.anonymous === false ? String(s.author || "") : ""
+      };
+    }
+
+    function fetchStories() {
+      return fetch(apiUrl("/stories?limit=120"), { credentials: "same-origin", cache: "no-store" })
+        .then(function (res) {
+          if (!res.ok) throw new Error("load_failed");
+          return res.json();
+        })
+        .then(function (data) {
+          var list = (data && data.stories) || [];
+          stories = list.map(normalizeStory).filter(Boolean);
+          return stories;
+        });
+    }
+
+    function postStory(payload) {
+      return fetch(apiUrl("/stories"), {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        return res.json().then(function (data) {
+          if (!res.ok) {
+            var err = new Error((data && data.message) || (data && data.error) || "save_failed");
+            err.code = data && data.error;
+            throw err;
+          }
+          return normalizeStory(data.story);
+        });
+      });
+    }
+
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+
+    function formatTime(ts) {
+      var m = Math.floor((Date.now() - ts) / 60000);
+      if (m < 1) return "щойно";
+      if (m < 60) return m + " хв тому";
+      var h = Math.floor(m / 60);
+      if (h < 24) return h + " год тому";
+      var d = Math.floor(h / 24);
+      return d === 1 ? "вчора" : d + " дн тому";
+    }
+
+    function authorLabel(s) {
+      return s && s.anonymous === false && s.author ? String(s.author) : "анонімно";
+    }
+
+    function updateCounters() {
+      var n = stories.length;
+      jarCount.textContent = String(n);
+    }
+
+    function randomTilt() {
+      return {
+        tilt: (Math.random() * 5 - 2.5).toFixed(2) + "deg",
+        hover: (Math.random() * 4 - 1).toFixed(2) + "deg"
+      };
+    }
+
+    function pickTone() {
+      return TONES[Math.floor(Math.random() * TONES.length)];
+    }
+
+    function isAnonymous() {
+      return !modeNamed.checked;
+    }
+
+    function syncIdentityUI() {
+      var anon = isAnonymous();
+      nameField.classList.toggle("show", !anon);
+      privacyHint.textContent = anon
+        ? "Анонімно · текст у спільній базі без імені"
+        : "З іменем · текст і підпис у спільній базі";
+      if (!anon) authorName.focus();
+    }
+
+    function updateCharCount() {
+      var len = input.value.length;
+      charCount.textContent = len + " / " + MAX_LEN;
+      charCount.classList.toggle("warn", len > MAX_LEN * 0.85);
+      charCount.classList.toggle("over", len >= MAX_LEN);
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove("show"); }, 3600);
+    }
+
+    function openReader(story) {
+      if (!story) return;
+      readerCard.className = "reader-card " + (story.tone || "tone-cream");
+      readerText.textContent = story.text || "";
+      readerAuthor.textContent = authorLabel(story);
+      readerTime.textContent = formatTime(story.createdAt);
+      reader.classList.add("open");
+      reader.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeReader() {
+      reader.classList.remove("open");
+      reader.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function renderStories(highlightId) {
+      updateCounters();
+      if (!stories.length) {
+        storiesEl.innerHTML = '<div class="empty-state">Конверт поки порожній. Будь першим.</div>';
+        return;
+      }
+      var sorted = stories.slice().sort(function (a, b) { return b.createdAt - a.createdAt; });
+      storiesEl.innerHTML = sorted.map(function (s, i) {
+        var tilt = randomTilt();
+        var delay = s.id === highlightId ? 0 : Math.min(i * 0.04, 0.35);
+        var long = (s.text || "").length > 90;
+        return '<article class="story-card ' + escapeHtml(s.tone) +
+          '" style="--tilt:' + tilt.tilt + ';--hover-tilt:' + tilt.hover +
+          ';animation-delay:' + delay + 's" data-id="' + escapeHtml(s.id) +
+          '" tabindex="0" role="button" aria-label="Відкрити історію">' +
+          '<div class="tape" aria-hidden="true"></div>' +
+          '<p class="story-text">' + escapeHtml(s.text) + '</p>' +
+          (long ? '<div class="story-more">натисни, щоб читати повністю</div>' : '') +
+          '<div class="story-meta"><span>' + escapeHtml(authorLabel(s)) +
+          '</span><span>' + formatTime(s.createdAt) + '</span></div></article>';
+      }).join("");
+    }
+
+    var envelopeTimer = null;
+
+    function openEnvelope() {
+      if (!jarEnvelope) return;
+      if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
+      jarEnvelope.classList.remove("is-closing", "is-settled", "has-letter", "is-pulse");
+      jarEnvelope.classList.add("is-receiving", "is-open");
+    }
+
+    function closeEnvelope(done) {
+      if (!jarEnvelope) {
+        if (done) done();
+        return;
+      }
+      if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
+      jarEnvelope.classList.remove("is-open", "is-receiving");
+      jarEnvelope.classList.add("is-closing", "has-letter");
+      envelopeTimer = setTimeout(function () {
+        jarEnvelope.classList.remove("is-closing");
+        jarEnvelope.classList.add("is-settled");
+        envelopeTimer = setTimeout(function () {
+          jarEnvelope.classList.remove("is-settled");
+          envelopeTimer = null;
+          if (done) done();
+        }, 450);
+      }, 1050);
+    }
+
+    function addRipple(e) {
+      var rect = submitBtn.getBoundingClientRect();
+      var size = Math.max(rect.width, rect.height);
+      var ripple = document.createElement("span");
+      ripple.className = "ripple";
+      ripple.style.width = ripple.style.height = size + "px";
+      ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+      ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
+      submitBtn.appendChild(ripple);
+      setTimeout(function () { ripple.remove(); }, 650);
+    }
+
+    function animateToJar(flyer, tone, done) {
+      var envRect = jarEnvelope.getBoundingClientRect();
+      var startX = parseFloat(flyer.style.left);
+      var startY = parseFloat(flyer.style.top);
+      var startW = parseFloat(flyer.style.width);
+      var startH = parseFloat(flyer.style.height);
+      var endW = 88, endH = 58;
+      var targetX = envRect.left + envRect.width / 2 - endW / 2;
+      var targetY = envRect.top + envRect.height * 0.22 - endH / 2;
+      var midX = (startX + targetX) / 2;
+      var midY = Math.min(startY, targetY) - 140;
+      var spin = (targetX < startX ? -1 : 1) * (140 + Math.random() * 70);
+      var foldMs = 560, flyMs = 1450;
+      var foldStart = performance.now();
+
+      openEnvelope();
+      var flyGate = performance.now() + 850;
+
+      function foldFrame(nowT) {
+        var t = Math.min(1, (nowT - foldStart) / foldMs);
+        var ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        var w = startW + (endW - startW) * ease;
+        var h = startH + (endH - startH) * ease;
+        flyer.style.width = w + "px";
+        flyer.style.height = h + "px";
+        flyer.style.borderRadius = (12 - ease * 9) + "px";
+        flyer.style.fontSize = (0.9 - ease * 0.48) + "rem";
+        flyer.style.left = (startX + (startW - w) / 2) + "px";
+        flyer.style.top = (startY + (startH - h) / 2) + "px";
+        flyer.style.transform = "rotate(" + (-6 + ease * 14) + "deg) skewX(" + (Math.sin(ease * Math.PI) * -10) + "deg) scale(" + (1 - Math.sin(ease * Math.PI) * 0.12) + ")";
+        if (t < 1) {
+          requestAnimationFrame(foldFrame);
+          return;
+        }
+        var foldLeft = parseFloat(flyer.style.left);
+        var foldTop = parseFloat(flyer.style.top);
+        function startFly() {
+          var envNow = jarEnvelope.getBoundingClientRect();
+          targetX = envNow.left + envNow.width / 2 - endW / 2;
+          targetY = envNow.top + envNow.height * 0.18 - endH / 2;
+          midX = (foldLeft + targetX) / 2;
+          midY = Math.min(foldTop, targetY) - 120;
+          var flyStart = performance.now();
+          function flyFrame(now2) {
+            var u = Math.min(1, (now2 - flyStart) / flyMs);
+            var ease2 = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+            var x = (1 - ease2) * (1 - ease2) * foldLeft + 2 * (1 - ease2) * ease2 * midX + ease2 * ease2 * targetX;
+            var y = (1 - ease2) * (1 - ease2) * foldTop + 2 * (1 - ease2) * ease2 * midY + ease2 * ease2 * targetY;
+            flyer.style.left = x + "px";
+            flyer.style.top = y + "px";
+            flyer.style.width = endW + "px";
+            flyer.style.height = endH + "px";
+            flyer.style.fontSize = "0.36rem";
+            flyer.style.borderRadius = "2px";
+            flyer.style.transform = "rotate(" + (8 + spin * ease2) + "deg) scale(" + (1 - ease2 * 0.42) + ")";
+            flyer.style.opacity = String(u > 0.78 ? 1 - (u - 0.78) / 0.22 : 1);
+            if (u < 1) {
+              requestAnimationFrame(flyFrame);
+              return;
+            }
+            jarEnvelope.classList.add("is-pulse");
+            setTimeout(function () { jarEnvelope.classList.remove("is-pulse"); }, 520);
+            flyer.remove();
+            closeEnvelope(done);
+          }
+          requestAnimationFrame(flyFrame);
+        }
+        var wait = Math.max(0, flyGate - performance.now());
+        setTimeout(startFly, wait);
+      }
+      requestAnimationFrame(foldFrame);
+    }
+
+    function createFlyer(text, tone, rect) {
+      var flyer = document.createElement("div");
+      flyer.className = "flyer";
+      flyer.style.background = FLYER_COLORS[TONES.indexOf(tone)] || FLYER_COLORS[0];
+      flyer.style.left = rect.left + "px";
+      flyer.style.top = rect.top + "px";
+      flyer.style.width = rect.width + "px";
+      flyer.style.height = Math.min(rect.height, 140) + "px";
+      flyer.style.borderRadius = "12px";
+      flyer.style.fontSize = "0.9rem";
+      flyer.textContent = text.slice(0, 90) + (text.length > 90 ? "…" : "");
+      document.body.appendChild(flyer);
+      return flyer;
+    }
+
+    function submitStory(clickEvent) {
+      if (busy) return;
+      var trimmed = input.value.trim();
+      if (trimmed.length > MAX_LEN) {
+        showToast("Скороти до 320 символів");
+        return;
+      }
+      var bad = validateStoryText(trimmed);
+      if (bad) {
+        showToast(bad);
+        input.focus();
+        return;
+      }
+      var anon = isAnonymous();
+      var author = "";
+      if (!anon) {
+        author = (authorName.value || "").trim().replace(/\s+/g, " ");
+        if (!author) {
+          showToast("Вкажи імʼя або обери «Анонімно»");
+          nameField.classList.add("show");
+          authorName.focus();
+          return;
+        }
+      }
+
+      busy = true;
+      submitBtn.disabled = true;
+      submitBtn.classList.add("sending");
+      if (clickEvent && clickEvent.clientX) addRipple(clickEvent);
+      btnLabel.textContent = "Складаємо…";
+
+      var tone = pickTone();
+      var flyer = createFlyer(trimmed, tone, input.getBoundingClientRect());
+      input.style.opacity = "0.35";
+
+      animateToJar(flyer, tone, function () {
+        postStory({
+          text: trimmed,
+          anonymous: anon,
+          author: anon ? "" : author,
+          tone: tone
+        }).then(function (story) {
+          if (!story) throw new Error("empty");
+          stories.push(story);
+          renderStories(story.id);
+          input.value = "";
+          input.style.opacity = "1";
+          if (!anon) authorName.value = "";
+          updateCharCount();
+          showToast(anon ? "Анонімний лист збережено в конверті" : "Лист від " + author + " збережено в конверті");
+          if (window.innerWidth < 860) {
+            document.getElementById("wall").scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }).catch(function (err) {
+          input.style.opacity = "1";
+          showToast((err && err.message) || "Не вдалося зберегти. Спробуй ще раз.");
+        }).then(function () {
+          submitBtn.classList.remove("sending");
+          submitBtn.disabled = false;
+          btnLabel.textContent = "Відправити в конверт";
+          busy = false;
+        });
+      });
+    }
+
+    function initHeroTitle() {
+      var title = document.getElementById("heroTitle");
+      if (!title) return;
+      Array.prototype.forEach.call(title.querySelectorAll(".word"), function (word) {
+        var delay = Number(word.getAttribute("data-delay") || 0);
+        word.style.animationDelay = (0.1 + delay * 0.08) + "s";
+        var text = word.textContent;
+        word.textContent = "";
+        Array.prototype.forEach.call(text, function (ch) {
+          var span = document.createElement("span");
+          span.className = "char";
+          span.textContent = ch;
+          word.appendChild(span);
+        });
+      });
+    }
+
+    function findStory(id) {
+      for (var i = 0; i < stories.length; i++) if (stories[i].id === id) return stories[i];
+      return null;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      submitStory(e);
+    });
+    input.addEventListener("input", updateCharCount);
+    document.getElementById("modeAnon").addEventListener("change", syncIdentityUI);
+    modeNamed.addEventListener("change", syncIdentityUI);
+
+    storiesEl.addEventListener("click", function (e) {
+      var card = e.target.closest(".story-card");
+      if (card) openReader(findStory(card.getAttribute("data-id")));
+    });
+    storiesEl.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var card = e.target.closest(".story-card");
+      if (!card) return;
+      e.preventDefault();
+      openReader(findStory(card.getAttribute("data-id")));
+    });
+
+    document.getElementById("readerClose").addEventListener("click", closeReader);
+    reader.addEventListener("click", function (e) { if (e.target === reader) closeReader(); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && reader.classList.contains("open")) closeReader();
+    });
+
+    initHeroTitle();
+    syncIdentityUI();
+    updateCharCount();
+    storiesEl.innerHTML = '<div class="empty-state">Завантажуємо історії…</div>';
+    fetchStories()
+      .then(function () { renderStories(); })
+      .catch(function () {
+        stories = [];
+        renderStories();
+        showToast("Не вдалося зʼєднатись із базою історій");
+      });
+  })();
+  </script>
+</body>
+</html>
