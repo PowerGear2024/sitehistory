@@ -196,71 +196,75 @@
       margin: 0 auto;
       display: flex; align-items: center; justify-content: center;
       overflow: visible;
-      perspective: 1100px;
+      perspective: 1200px;
+      perspective-origin: 50% 40%;
     }
     .jar-base-glow {
       position: absolute; left: 12%; right: 12%; bottom: 18px; height: 42px; z-index: 0;
-      background: radial-gradient(ellipse at center, rgba(224,181,122,.55), rgba(110,181,164,.16) 50%, transparent 72%);
+      background: radial-gradient(ellipse at center, rgba(224,181,122,.45), rgba(110,181,164,.14) 50%, transparent 72%);
       filter: blur(16px);
       animation: glowPulse 3.8s ease-in-out infinite alternate;
+      will-change: opacity, transform;
     }
     @keyframes glowPulse {
-      from { opacity: .35; transform: scaleX(.9); }
-      to { opacity: 1; transform: scaleX(1.1); }
+      from { opacity: .35; transform: scaleX(.92); }
+      to { opacity: .9; transform: scaleX(1.08); }
     }
 
-    /* ===== HERO ENVELOPE (replaces jar) ===== */
+    /* float wrapper — idle only; pausing freezes without transform snap */
+    .env-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      animation: envIdle 6s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    .env-stage.is-busy {
+      animation-play-state: paused;
+    }
+    @keyframes envIdle {
+      from { transform: translate3d(0, 0, 0) rotate(-1.5deg); }
+      to { transform: translate3d(0, -6px, 0) rotate(1.5deg); }
+    }
+
+    /* ===== HERO ENVELOPE ===== */
     .memory-envelope {
       position: relative;
       width: min(240px, 72vw);
       height: min(160px, 48vw);
       z-index: 3;
-      transform-origin: 50% 100%;
+      transform-origin: 50% 80%;
       transform-style: preserve-3d;
-      transform: translateY(0) rotate(-2deg) scale(1);
-      transition: transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateZ(0) scale(1);
       pointer-events: none;
-      animation: envIdle 5.5s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    .memory-envelope.is-receiving {
+      animation: envLift .55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .memory-envelope.is-closing {
+      animation: envSettle .7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+    @keyframes envLift {
+      from { transform: translateZ(0) scale(1); }
+      to { transform: translate3d(0, -6px, 0) scale(1.04); }
+    }
+    @keyframes envSettle {
+      from { transform: translate3d(0, -6px, 0) scale(1.04); }
+      to { transform: translateZ(0) scale(1); }
     }
     .memory-envelope::after {
       content: "";
       position: absolute;
-      left: 10%; right: 10%; bottom: -14px; height: 22px;
+      left: 12%; right: 12%; bottom: -12px; height: 18px;
       border-radius: 50%;
-      background: rgba(0,0,0,.4);
-      filter: blur(10px);
+      background: rgba(0,0,0,.38);
+      filter: blur(9px);
       z-index: 0;
       pointer-events: none;
-      opacity: .75;
-    }
-    @keyframes envIdle {
-      from { transform: translateY(0) rotate(-2deg) scale(1); }
-      to { transform: translateY(-8px) rotate(2deg) scale(1.03); }
-    }
-    .memory-envelope.is-receiving {
-      animation: none;
-      transform: translateY(-10px) rotate(0deg) scale(1.08);
-      z-index: 5;
-    }
-    .memory-envelope.is-closing {
-      animation: none;
-      transform: translateY(-4px) rotate(-1deg) scale(1.04);
-      z-index: 5;
-    }
-    .memory-envelope.is-settled {
-      animation: envIdle 5.5s ease-in-out infinite alternate;
-      transform: translateY(0) rotate(-2deg) scale(1);
-      z-index: 3;
-    }
-    .memory-envelope.is-pulse {
-      animation: none;
-      transform: translateY(-4px) scale(1.05);
-    }
-    .memory-envelope.is-pulse .env-back {
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.4),
-        0 14px 28px rgba(0,0,0,.4),
-        0 0 36px rgba(224,181,122,.45);
+      opacity: .7;
     }
     .env-back {
       position: absolute; inset: 0;
@@ -269,7 +273,7 @@
         linear-gradient(160deg, #f9f1e2 0%, #ead8b6 42%, #d4bf96 100%);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.4),
-        0 16px 32px rgba(0,0,0,.4);
+        0 16px 32px rgba(0,0,0,.38);
       z-index: 1;
     }
     .env-pocket {
@@ -295,24 +299,23 @@
         linear-gradient(180deg, #fffaf0, #f0e4cc);
       box-shadow: 0 3px 8px rgba(0,0,0,.14);
       opacity: 0;
-      transform: translateY(22px) scale(.96);
-      transition: opacity .35s ease, transform .55s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translate3d(0, 18px, 0);
+      transition: opacity .4s ease, transform .55s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .memory-envelope.has-letter .env-letter-peek {
-      opacity: .95;
-      transform: translateY(0) scale(1);
+      opacity: .92;
+      transform: translate3d(0, 0, 0);
     }
-    .memory-envelope.is-receiving .env-letter-peek {
+    .memory-envelope.is-receiving .env-letter-peek,
+    .memory-envelope.is-open .env-letter-peek {
       opacity: 0;
-      transform: translateY(28px) scale(.9);
-      transition: none;
+      transform: translate3d(0, 24px, 0);
+      transition: opacity .25s ease, transform .35s ease;
     }
     .env-front {
       position: absolute; inset: 0;
       z-index: 3;
       pointer-events: none;
-      background:
-        linear-gradient(155deg, transparent 42%, rgba(180,150,100,.16) 50%, transparent 58%);
     }
     .env-front::before,
     .env-front::after {
@@ -335,6 +338,8 @@
       border-radius: 0 0 8px 0;
       background: linear-gradient(200deg, #efe0c4, #d4bc92 60%, #c2a878);
     }
+
+    /* flap — keyframes only (no transition restarts = no jerks) */
     .env-flap {
       position: absolute;
       left: 0; right: 0; top: 0;
@@ -343,8 +348,8 @@
       transform-origin: top center;
       transform-style: preserve-3d;
       transform: rotateX(0deg);
-      transition: transform 1.05s cubic-bezier(0.4, 0.05, 0.2, 1);
       will-change: transform;
+      backface-visibility: hidden;
     }
     .env-flap::before {
       content: "";
@@ -354,7 +359,7 @@
         linear-gradient(180deg, #fff8ea 0%, #ead7b4 48%, #c9ad80 100%);
       box-shadow:
         inset 0 2px 0 rgba(255,255,255,.5),
-        0 8px 16px rgba(0,0,0,.22);
+        0 6px 14px rgba(0,0,0,.18);
       backface-visibility: hidden;
     }
     .env-flap::after {
@@ -365,18 +370,25 @@
         linear-gradient(0deg, #d8c29a 0%, #c4a878 55%, #a88e62 100%);
       transform: rotateX(180deg);
       backface-visibility: hidden;
-      box-shadow: inset 0 -2px 8px rgba(0,0,0,.22);
+      box-shadow: inset 0 -2px 8px rgba(0,0,0,.2);
     }
     .memory-envelope.is-open .env-flap {
-      transform: rotateX(-175deg);
-      transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 1;
+      animation: flapOpen .72s cubic-bezier(0.33, 1, 0.68, 1) forwards;
     }
     .memory-envelope.is-closing .env-flap {
-      transform: rotateX(0deg);
-      transition: transform 1s cubic-bezier(0.33, 1, 0.4, 1);
       z-index: 5;
+      animation: flapClose .68s cubic-bezier(0.33, 1, 0.68, 1) forwards;
     }
+    @keyframes flapOpen {
+      0%   { transform: rotateX(0deg); }
+      100% { transform: rotateX(-168deg); }
+    }
+    @keyframes flapClose {
+      0%   { transform: rotateX(-168deg); }
+      100% { transform: rotateX(0deg); }
+    }
+
     .env-seal {
       position: absolute;
       left: 50%; top: 40%;
@@ -390,12 +402,9 @@
         0 4px 12px rgba(0,0,0,.42),
         inset 0 1px 3px rgba(255,255,255,.45),
         0 0 0 1px rgba(120,50,30,.35);
-      transform: scale(1);
+      transform: translateZ(0) scale(1);
       opacity: 1;
-      transition:
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.4s ease,
-        box-shadow 0.55s ease;
+      will-change: transform, opacity;
     }
     .env-seal::before {
       content: "✦";
@@ -407,50 +416,35 @@
     }
     .memory-envelope.is-open .env-seal,
     .memory-envelope.is-receiving .env-seal {
-      transform: scale(0.12) translateY(-28px);
-      opacity: 0;
-      pointer-events: none;
+      animation: sealOut .35s cubic-bezier(0.4, 0, 1, 1) forwards;
     }
     .memory-envelope.is-closing .env-seal {
-      transform: scale(1.22);
-      opacity: 1;
-      box-shadow:
-        0 4px 14px rgba(0,0,0,.48),
-        inset 0 1px 3px rgba(255,255,255,.5),
-        0 0 28px rgba(196,120,90,.7);
-      transition:
-        transform 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) 0.4s,
-        opacity 0.35s ease 0.35s,
-        box-shadow 0.75s ease 0.4s;
+      animation: sealIn .55s cubic-bezier(0.22, 1, 0.36, 1) .28s forwards;
     }
-    .memory-envelope.is-settled .env-seal {
-      transform: scale(1);
-      opacity: 1;
-      box-shadow:
-        0 4px 12px rgba(0,0,0,.42),
-        inset 0 1px 3px rgba(255,255,255,.45),
-        0 0 0 1px rgba(120,50,30,.35);
+    @keyframes sealOut {
+      0%   { transform: translateZ(0) scale(1); opacity: 1; }
+      100% { transform: translate3d(0, -10px, 0) scale(.2); opacity: 0; }
     }
+    @keyframes sealIn {
+      0%   { transform: translate3d(0, -8px, 0) scale(.35); opacity: 0; }
+      70%  { transform: translateZ(0) scale(1.12); opacity: 1; }
+      100% { transform: translateZ(0) scale(1); opacity: 1; }
+    }
+
     .env-glow {
       position: absolute;
-      left: 0; right: 0; top: 0; bottom: 0;
+      left: 8%; right: 8%; top: 10%; bottom: 8%;
       border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(224,181,122,.55), transparent 70%);
+      background: radial-gradient(ellipse, rgba(224,181,122,.4), transparent 70%);
       opacity: 0;
       z-index: 0;
       pointer-events: none;
-      transition: opacity .5s ease;
-      filter: blur(14px);
-      transform: scale(1.15);
+      transform: translateZ(0);
+      transition: opacity .45s ease;
     }
     .memory-envelope.is-open .env-glow,
     .memory-envelope.is-receiving .env-glow {
-      opacity: 1;
-      animation: envGlowPulse 1.1s ease-in-out infinite alternate;
-    }
-    @keyframes envGlowPulse {
-      from { opacity: .45; transform: scale(1.05); }
-      to { opacity: 1; transform: scale(1.28); }
+      opacity: .85;
     }
 
     .jar-count {
@@ -460,8 +454,8 @@
     .jar-count strong { color: var(--sand); font-weight: 600; }
 
     @media (prefers-reduced-motion: reduce) {
-      .ember, .jar-base-glow, .memory-envelope, .env-glow { animation: none !important; }
-      .env-flap, .env-seal, .memory-envelope { transition-duration: .01ms !important; }
+      .ember, .jar-base-glow, .env-stage, .memory-envelope, .env-flap, .env-seal, .env-glow { animation: none !important; }
+      .env-letter-peek { transition-duration: .01ms !important; }
     }
 
 
@@ -532,8 +526,9 @@
     .flyer {
       position:fixed; z-index:9999; pointer-events:none; display:flex; align-items:center; justify-content:center;
       padding:8px 10px; line-height:1.25; color:rgba(40,30,20,.65); overflow:hidden;
-      box-shadow: 0 16px 36px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.3), 0 0 24px var(--sand-soft);
-      will-change: left, top, transform; transform-origin:center; border:1px solid rgba(255,255,255,.3);
+      box-shadow: 0 16px 36px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.28);
+      will-change: transform, opacity; transform-origin:center; border:1px solid rgba(255,255,255,.28);
+      left: 0; top: 0;
     }
 
     .wall { animation: rise 1s ease .35s both; }
@@ -711,14 +706,16 @@
         <div class="jar-caption">Конверт несказаного</div>
         <div class="jar-scene" role="img" aria-label="Конверт для несказаних листів">
           <div class="jar-base-glow" aria-hidden="true"></div>
-          <div class="memory-envelope has-letter" id="jarEnvelope" aria-hidden="true">
-            <div class="env-glow"></div>
-            <div class="env-back"></div>
-            <div class="env-letter-peek"></div>
-            <div class="env-pocket"></div>
-            <div class="env-front"></div>
-            <div class="env-flap"></div>
-            <div class="env-seal"></div>
+          <div class="env-stage" id="envStage">
+            <div class="memory-envelope has-letter" id="jarEnvelope" aria-hidden="true">
+              <div class="env-glow"></div>
+              <div class="env-back"></div>
+              <div class="env-letter-peek"></div>
+              <div class="env-pocket"></div>
+              <div class="env-front"></div>
+              <div class="env-flap"></div>
+              <div class="env-seal"></div>
+            </div>
           </div>
         </div>
         <p class="jar-count">Листів у конверті: <strong id="jarCount">0</strong></p>
@@ -882,6 +879,7 @@
     var readerAuthor = document.getElementById("readerAuthor");
     var readerTime = document.getElementById("readerTime");
     var jarEnvelope = document.getElementById("jarEnvelope");
+    var envStage = document.getElementById("envStage");
     var btnLabel = submitBtn.querySelector(".btn-label");
 
     var stories = [];
@@ -1044,7 +1042,10 @@
     function openEnvelope() {
       if (!jarEnvelope) return;
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
-      jarEnvelope.classList.remove("is-closing", "is-settled", "has-letter", "is-pulse");
+      if (envStage) envStage.classList.add("is-busy");
+      jarEnvelope.classList.remove("is-closing", "has-letter");
+      /* restart keyframes cleanly */
+      void jarEnvelope.offsetWidth;
       jarEnvelope.classList.add("is-receiving", "is-open");
     }
 
@@ -1055,16 +1056,14 @@
       }
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
       jarEnvelope.classList.remove("is-open", "is-receiving");
+      void jarEnvelope.offsetWidth;
       jarEnvelope.classList.add("is-closing", "has-letter");
       envelopeTimer = setTimeout(function () {
         jarEnvelope.classList.remove("is-closing");
-        jarEnvelope.classList.add("is-settled");
-        envelopeTimer = setTimeout(function () {
-          jarEnvelope.classList.remove("is-settled");
-          envelopeTimer = null;
-          if (done) done();
-        }, 450);
-      }, 1050);
+        if (envStage) envStage.classList.remove("is-busy");
+        envelopeTimer = null;
+        if (done) done();
+      }, 780);
     }
 
     function addRipple(e) {
@@ -1079,89 +1078,98 @@
       setTimeout(function () { ripple.remove(); }, 650);
     }
 
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
     function animateToJar(flyer, tone, done) {
-      var envRect = jarEnvelope.getBoundingClientRect();
-      var startX = parseFloat(flyer.style.left);
-      var startY = parseFloat(flyer.style.top);
-      var startW = parseFloat(flyer.style.width);
-      var startH = parseFloat(flyer.style.height);
-      var endW = 88, endH = 58;
-      var targetX = envRect.left + envRect.width / 2 - endW / 2;
-      var targetY = envRect.top + envRect.height * 0.22 - endH / 2;
-      var midX = (startX + targetX) / 2;
-      var midY = Math.min(startY, targetY) - 140;
-      var spin = (targetX < startX ? -1 : 1) * (140 + Math.random() * 70);
-      var foldMs = 560, flyMs = 1450;
+      var startRect = {
+        left: parseFloat(flyer.dataset.x),
+        top: parseFloat(flyer.dataset.y),
+        w: parseFloat(flyer.dataset.w),
+        h: parseFloat(flyer.dataset.h)
+      };
+      var endW = 86, endH = 56;
+      var foldMs = 420, flyMs = 1100;
       var foldStart = performance.now();
 
       openEnvelope();
-      var flyGate = performance.now() + 850;
+      var flyGate = performance.now() + 520;
+
+      function setFlyer(x, y, w, h, rot, scl, opacity) {
+        flyer.style.transform =
+          "translate3d(" + x + "px," + y + "px,0) rotate(" + rot + "deg) scale(" + scl + ")";
+        flyer.style.width = w + "px";
+        flyer.style.height = h + "px";
+        flyer.style.opacity = String(opacity);
+      }
 
       function foldFrame(nowT) {
         var t = Math.min(1, (nowT - foldStart) / foldMs);
-        var ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-        var w = startW + (endW - startW) * ease;
-        var h = startH + (endH - startH) * ease;
-        flyer.style.width = w + "px";
-        flyer.style.height = h + "px";
-        flyer.style.borderRadius = (12 - ease * 9) + "px";
-        flyer.style.fontSize = (0.9 - ease * 0.48) + "rem";
-        flyer.style.left = (startX + (startW - w) / 2) + "px";
-        flyer.style.top = (startY + (startH - h) / 2) + "px";
-        flyer.style.transform = "rotate(" + (-6 + ease * 14) + "deg) skewX(" + (Math.sin(ease * Math.PI) * -10) + "deg) scale(" + (1 - Math.sin(ease * Math.PI) * 0.12) + ")";
+        var e = easeInOutCubic(t);
+        var w = startRect.w + (endW - startRect.w) * e;
+        var h = startRect.h + (endH - startRect.h) * e;
+        var x = startRect.left + (startRect.w - w) / 2;
+        var y = startRect.top + (startRect.h - h) / 2;
+        setFlyer(x, y, w, h, -4 + e * 10, 1 - Math.sin(e * Math.PI) * 0.06, 1);
+        flyer.style.fontSize = (0.9 - e * 0.48) + "rem";
+        flyer.style.borderRadius = (12 - e * 9) + "px";
         if (t < 1) {
           requestAnimationFrame(foldFrame);
           return;
         }
-        var foldLeft = parseFloat(flyer.style.left);
-        var foldTop = parseFloat(flyer.style.top);
+        var foldLeft = startRect.left + (startRect.w - endW) / 2;
+        var foldTop = startRect.top + (startRect.h - endH) / 2;
+
         function startFly() {
           var envNow = jarEnvelope.getBoundingClientRect();
-          targetX = envNow.left + envNow.width / 2 - endW / 2;
-          targetY = envNow.top + envNow.height * 0.18 - endH / 2;
-          midX = (foldLeft + targetX) / 2;
-          midY = Math.min(foldTop, targetY) - 120;
+          var targetX = envNow.left + envNow.width / 2 - endW / 2;
+          var targetY = envNow.top + envNow.height * 0.16 - endH / 2;
+          var midX = (foldLeft + targetX) / 2;
+          var midY = Math.min(foldTop, targetY) - 110;
+          var spin = (targetX < foldLeft ? -1 : 1) * 120;
           var flyStart = performance.now();
+
           function flyFrame(now2) {
             var u = Math.min(1, (now2 - flyStart) / flyMs);
-            var ease2 = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-            var x = (1 - ease2) * (1 - ease2) * foldLeft + 2 * (1 - ease2) * ease2 * midX + ease2 * ease2 * targetX;
-            var y = (1 - ease2) * (1 - ease2) * foldTop + 2 * (1 - ease2) * ease2 * midY + ease2 * ease2 * targetY;
-            flyer.style.left = x + "px";
-            flyer.style.top = y + "px";
-            flyer.style.width = endW + "px";
-            flyer.style.height = endH + "px";
-            flyer.style.fontSize = "0.36rem";
+            var e2 = easeInOutCubic(u);
+            var x = (1 - e2) * (1 - e2) * foldLeft + 2 * (1 - e2) * e2 * midX + e2 * e2 * targetX;
+            var y = (1 - e2) * (1 - e2) * foldTop + 2 * (1 - e2) * e2 * midY + e2 * e2 * targetY;
+            var opacity = u > 0.82 ? 1 - (u - 0.82) / 0.18 : 1;
+            setFlyer(x, y, endW, endH, 6 + spin * e2, 1 - e2 * 0.38, opacity);
+            flyer.style.fontSize = "0.34rem";
             flyer.style.borderRadius = "2px";
-            flyer.style.transform = "rotate(" + (8 + spin * ease2) + "deg) scale(" + (1 - ease2 * 0.42) + ")";
-            flyer.style.opacity = String(u > 0.78 ? 1 - (u - 0.78) / 0.22 : 1);
             if (u < 1) {
               requestAnimationFrame(flyFrame);
               return;
             }
-            jarEnvelope.classList.add("is-pulse");
-            setTimeout(function () { jarEnvelope.classList.remove("is-pulse"); }, 520);
             flyer.remove();
             closeEnvelope(done);
           }
           requestAnimationFrame(flyFrame);
         }
+
         var wait = Math.max(0, flyGate - performance.now());
-        setTimeout(startFly, wait);
+        if (wait > 0) setTimeout(startFly, wait);
+        else startFly();
       }
       requestAnimationFrame(foldFrame);
     }
 
     function createFlyer(text, tone, rect) {
       var flyer = document.createElement("div");
+      var h = Math.min(rect.height, 140);
       flyer.className = "flyer";
       flyer.style.background = FLYER_COLORS[TONES.indexOf(tone)] || FLYER_COLORS[0];
-      flyer.style.left = rect.left + "px";
-      flyer.style.top = rect.top + "px";
+      flyer.dataset.x = String(rect.left);
+      flyer.dataset.y = String(rect.top);
+      flyer.dataset.w = String(rect.width);
+      flyer.dataset.h = String(h);
       flyer.style.width = rect.width + "px";
-      flyer.style.height = Math.min(rect.height, 140) + "px";
+      flyer.style.height = h + "px";
       flyer.style.borderRadius = "12px";
       flyer.style.fontSize = "0.9rem";
+      flyer.style.transform = "translate3d(" + rect.left + "px," + rect.top + "px,0)";
       flyer.textContent = text.slice(0, 90) + (text.length > 90 ? "…" : "");
       document.body.appendChild(flyer);
       return flyer;
