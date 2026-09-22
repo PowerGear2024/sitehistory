@@ -341,7 +341,7 @@
       background: linear-gradient(200deg, #efe0c4, #d4bc92 60%, #c2a878);
     }
 
-    /* flap — keyframes only (no transition restarts = no jerks) */
+    /* flap — rotateX driven by JS rAF */
     .env-flap {
       position: absolute;
       left: 0; right: 0; top: 0;
@@ -351,7 +351,8 @@
       transform-style: preserve-3d;
       transform: translateZ(1px) rotateX(0deg);
       will-change: transform;
-      backface-visibility: hidden;
+      /* do NOT set backface-visibility on the flap itself —
+         it hides the whole element past 90deg and looks like a hang/snap */
     }
     .env-flap::before {
       content: "";
