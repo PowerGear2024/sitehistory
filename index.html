@@ -683,7 +683,7 @@
         </div>
         <div>
           <div class="brand-name">SiteHistory</div>
-          <div class="brand-tag">банка несказаного</div>
+          <div class="brand-tag">конверт несказаного</div>
         </div>
       </a>
     </header>
@@ -804,7 +804,7 @@
       if (!raw) return "Напиши хоч кілька слів…";
       if (raw.length < MIN_CHARS) return "Занадто коротко — мінімум " + MIN_CHARS + " символів і зміст, не «привіт».";
       var words = tokenizeWords(raw);
-      if (words.length < MIN_WORDS) return "Потрібно щонайменше " + MIN_WORDS + " слів — це банка несказаного, не чат.";
+      if (words.length < MIN_WORDS) return "Потрібно щонайменше " + MIN_WORDS + " слів — це конверт несказаного, не чат.";
       var letters = raw.match(/[A-Za-zА-Яа-яЁёІіЇїЄєҐґ]/g) || [];
       var digits = raw.match(/\d/g) || [];
       var alnum = letters.length + digits.length;
