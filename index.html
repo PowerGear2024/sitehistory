@@ -372,20 +372,22 @@
       backface-visibility: hidden;
       box-shadow: inset 0 -2px 8px rgba(0,0,0,.2);
     }
-    .memory-envelope.is-open .env-flap {
+    .memory-envelope.is-open:not(.is-closing) .env-flap {
       z-index: 1;
-      animation: flapOpen .72s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+      animation: flapOpen .85s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
     }
     .memory-envelope.is-closing .env-flap {
       z-index: 5;
-      animation: flapClose .68s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+      animation: flapClose .75s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
     }
     @keyframes flapOpen {
       0%   { transform: rotateX(0deg); }
+      60%  { transform: rotateX(-145deg); }
       100% { transform: rotateX(-168deg); }
     }
     @keyframes flapClose {
       0%   { transform: rotateX(-168deg); }
+      40%  { transform: rotateX(-90deg); }
       100% { transform: rotateX(0deg); }
     }
 
@@ -414,12 +416,12 @@
       text-shadow: 0 1px 1px rgba(0,0,0,.25);
       line-height: 1;
     }
-    .memory-envelope.is-open .env-seal,
-    .memory-envelope.is-receiving .env-seal {
-      animation: sealOut .35s cubic-bezier(0.4, 0, 1, 1) forwards;
+    .memory-envelope.is-open:not(.is-closing) .env-seal,
+    .memory-envelope.is-receiving:not(.is-closing) .env-seal {
+      animation: sealOut .4s cubic-bezier(0.4, 0, 1, 1) forwards;
     }
     .memory-envelope.is-closing .env-seal {
-      animation: sealIn .55s cubic-bezier(0.22, 1, 0.36, 1) .28s forwards;
+      animation: sealIn .6s cubic-bezier(0.22, 1, 0.36, 1) .2s forwards;
     }
     @keyframes sealOut {
       0%   { transform: translateZ(0) scale(1); opacity: 1; }
@@ -1055,15 +1057,15 @@
         return;
       }
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
-      jarEnvelope.classList.remove("is-open", "is-receiving");
-      void jarEnvelope.offsetWidth;
+      /* add closing first so flap never snaps to 0deg between states */
       jarEnvelope.classList.add("is-closing", "has-letter");
+      jarEnvelope.classList.remove("is-open", "is-receiving");
       envelopeTimer = setTimeout(function () {
         jarEnvelope.classList.remove("is-closing");
         if (envStage) envStage.classList.remove("is-busy");
         envelopeTimer = null;
         if (done) done();
-      }, 780);
+      }, 900);
     }
 
     function addRipple(e) {
@@ -1090,11 +1092,11 @@
         h: parseFloat(flyer.dataset.h)
       };
       var endW = 86, endH = 56;
-      var foldMs = 420, flyMs = 1100;
+      var foldMs = 380, flyMs = 1200;
       var foldStart = performance.now();
 
       openEnvelope();
-      var flyGate = performance.now() + 520;
+      var flyGate = performance.now() + 720;
 
       function setFlyer(x, y, w, h, rot, scl, opacity) {
         flyer.style.transform =
