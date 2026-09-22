@@ -374,24 +374,9 @@
       backface-visibility: hidden;
       box-shadow: inset 0 -2px 8px rgba(0,0,0,.2);
     }
-    .memory-envelope.is-open:not(.is-closing) .env-flap {
-      z-index: 1;
-      animation: flapOpen 1.05s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-    }
-    .memory-envelope.is-closing .env-flap {
-      z-index: 5;
-      animation: flapClose .9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-    }
-    @keyframes flapOpen {
-      0%   { transform: translateZ(1px) rotateX(0deg); }
-      35%  { transform: translateZ(1px) rotateX(-70deg); }
-      100% { transform: translateZ(1px) rotateX(-165deg); }
-    }
-    @keyframes flapClose {
-      0%   { transform: translateZ(1px) rotateX(-165deg); }
-      55%  { transform: translateZ(1px) rotateX(-55deg); }
-      100% { transform: translateZ(1px) rotateX(0deg); }
-    }
+    .memory-envelope.is-open:not(.is-closing) .env-flap { z-index: 1; }
+    .memory-envelope.is-closing .env-flap { z-index: 5; }
+
 
     .env-seal {
       position: absolute;
@@ -418,22 +403,7 @@
       text-shadow: 0 1px 1px rgba(0,0,0,.25);
       line-height: 1;
     }
-    .memory-envelope.is-open:not(.is-closing) .env-seal,
-    .memory-envelope.is-receiving:not(.is-closing) .env-seal {
-      animation: sealOut .4s cubic-bezier(0.4, 0, 1, 1) forwards;
-    }
-    .memory-envelope.is-closing .env-seal {
-      animation: sealIn .6s cubic-bezier(0.22, 1, 0.36, 1) .2s forwards;
-    }
-    @keyframes sealOut {
-      0%   { transform: translateZ(0) scale(1); opacity: 1; }
-      100% { transform: translate3d(0, -10px, 0) scale(.2); opacity: 0; }
-    }
-    @keyframes sealIn {
-      0%   { transform: translate3d(0, -8px, 0) scale(.35); opacity: 0; }
-      70%  { transform: translateZ(0) scale(1.12); opacity: 1; }
-      100% { transform: translateZ(0) scale(1); opacity: 1; }
-    }
+
 
     .env-glow {
       position: absolute;
@@ -1042,15 +1012,63 @@
     }
 
     var envelopeTimer = null;
+    var flapEl = jarEnvelope ? jarEnvelope.querySelector(".env-flap") : null;
+    var sealEl = jarEnvelope ? jarEnvelope.querySelector(".env-seal") : null;
+    var flapAngle = 0;
+    var flapRaf = 0;
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function setFlapAngle(deg) {
+      flapAngle = deg;
+      if (!flapEl) return;
+      flapEl.style.transform = "translateZ(1px) rotateX(" + deg + "deg)";
+      if (deg > 90) flapEl.style.zIndex = "1";
+      else flapEl.style.zIndex = "5";
+    }
+
+    function animateFlap(toDeg, duration, done) {
+      if (flapRaf) cancelAnimationFrame(flapRaf);
+      var from = flapAngle;
+      var start = performance.now();
+      function frame(now) {
+        var t = Math.min(1, (now - start) / duration);
+        var e = easeInOutCubic(t);
+        setFlapAngle(from + (toDeg - from) * e);
+        if (t < 1) {
+          flapRaf = requestAnimationFrame(frame);
+        } else {
+          flapRaf = 0;
+          setFlapAngle(toDeg);
+          if (done) done();
+        }
+      }
+      flapRaf = requestAnimationFrame(frame);
+    }
+
+    function setSealOpen(open) {
+      if (!sealEl) return;
+      if (open) {
+        sealEl.style.transition = "transform .35s cubic-bezier(0.4,0,1,1), opacity .3s ease";
+        sealEl.style.transform = "translate3d(0,-10px,0) scale(0.2)";
+        sealEl.style.opacity = "0";
+      } else {
+        sealEl.style.transition = "transform .55s cubic-bezier(0.22,1,0.36,1), opacity .35s ease";
+        sealEl.style.transform = "translateZ(0) scale(1)";
+        sealEl.style.opacity = "1";
+      }
+    }
 
     function openEnvelope() {
       if (!jarEnvelope) return;
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
       if (envStage) envStage.classList.add("is-busy");
       jarEnvelope.classList.remove("is-closing", "has-letter");
-      /* restart keyframes cleanly */
-      void jarEnvelope.offsetWidth;
       jarEnvelope.classList.add("is-receiving", "is-open");
+      setSealOpen(true);
+      animateFlap(-165, 900);
     }
 
     function closeEnvelope(done) {
@@ -1059,15 +1077,17 @@
         return;
       }
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
-      /* add closing first so flap never snaps to 0deg between states */
       jarEnvelope.classList.add("is-closing", "has-letter");
       jarEnvelope.classList.remove("is-open", "is-receiving");
+      animateFlap(0, 850, function () {
+        setSealOpen(false);
+      });
       envelopeTimer = setTimeout(function () {
         jarEnvelope.classList.remove("is-closing");
         if (envStage) envStage.classList.remove("is-busy");
         envelopeTimer = null;
         if (done) done();
-      }, 1050);
+      }, 1000);
     }
 
     function addRipple(e) {
@@ -1082,10 +1102,6 @@
       setTimeout(function () { ripple.remove(); }, 650);
     }
 
-    function easeInOutCubic(t) {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
-
     function animateToJar(flyer, tone, done) {
       var startRect = {
         left: parseFloat(flyer.dataset.x),
@@ -1094,11 +1110,11 @@
         h: parseFloat(flyer.dataset.h)
       };
       var endW = 86, endH = 56;
-      var foldMs = 380, flyMs = 1200;
+      var foldMs = 360, flyMs = 1150;
       var foldStart = performance.now();
 
       openEnvelope();
-      var flyGate = performance.now() + 950;
+      var flyGate = performance.now() + 880;
 
       function setFlyer(x, y, w, h, rot, scl, opacity) {
         flyer.style.transform =
@@ -1131,7 +1147,7 @@
           var targetY = envNow.top + envNow.height * 0.16 - endH / 2;
           var midX = (foldLeft + targetX) / 2;
           var midY = Math.min(foldTop, targetY) - 110;
-          var spin = (targetX < foldLeft ? -1 : 1) * 120;
+          var spin = (targetX < foldLeft ? -1 : 1) * 100;
           var flyStart = performance.now();
 
           function flyFrame(now2) {
