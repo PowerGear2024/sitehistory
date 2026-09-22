@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SiteHistory — Що ти хотів сказати?</title>
-  <meta name="description" content="Банка несказаних слів. Анонімні й підписані історії в спільній базі. Без аналітики й трекерів." />
+  <meta name="description" content="Конверт несказаних слів. Анонімні й підписані історії в спільній базі. Без аналітики й трекерів." />
   <meta name="theme-color" content="#080a0c" />
   <meta name="color-scheme" content="dark" />
   <meta name="referrer" content="no-referrer" />
@@ -191,396 +191,111 @@
     }
     .jar-scene {
       position: relative; z-index: 2;
-      width: min(260px, 78vw);
-      height: 390px;
+      width: min(300px, 86vw);
+      height: 300px;
       margin: 0 auto;
-      display: flex; align-items: flex-end; justify-content: center;
-      padding-top: 96px;
+      display: flex; align-items: center; justify-content: center;
       overflow: visible;
-      perspective: 1000px;
-    }
-    .jar-assembly {
-      position: relative;
-      width: 168px;
-      height: 286px;
-      transform-style: preserve-3d;
-      filter: drop-shadow(0 28px 36px rgba(0,0,0,.55));
+      perspective: 1100px;
     }
     .jar-base-glow {
-      position: absolute; left: 8%; right: 8%; bottom: -4px; height: 36px; z-index: 0;
-      background: radial-gradient(ellipse at center, rgba(224,181,122,.5), rgba(110,181,164,.15) 50%, transparent 72%);
-      filter: blur(14px);
+      position: absolute; left: 12%; right: 12%; bottom: 18px; height: 42px; z-index: 0;
+      background: radial-gradient(ellipse at center, rgba(224,181,122,.55), rgba(110,181,164,.16) 50%, transparent 72%);
+      filter: blur(16px);
       animation: glowPulse 3.8s ease-in-out infinite alternate;
     }
     @keyframes glowPulse {
       from { opacity: .35; transform: scaleX(.9); }
-      to { opacity: 1; transform: scaleX(1.08); }
+      to { opacity: 1; transform: scaleX(1.1); }
     }
 
-    /* ===== TWO-PIECE MASON LID ===== */
-    .mason-lid {
-      position: absolute;
-      top: 0; left: 50%;
-      width: 118px; height: 52px;
-      margin-left: -59px;
-      z-index: 10;
-      transform-origin: 50% 70%;
-      transform-style: preserve-3d;
-      will-change: transform, filter;
-      filter: drop-shadow(0 8px 14px rgba(0,0,0,.5));
-    }
-    .lid-disk {
-      position: absolute;
-      top: 0; left: 10px; right: 10px;
-      height: 16px;
-      border-radius: 50%;
-      background:
-        radial-gradient(ellipse at 40% 30%,
-          #f5f2ea 0%,
-          #d8d2c6 30%,
-          #a8a194 58%,
-          #6e685c 85%,
-          #3e3a32 100%);
-      box-shadow:
-        inset 0 2px 3px rgba(255,255,255,.65),
-        inset 0 -2px 4px rgba(0,0,0,.4),
-        0 2px 3px rgba(0,0,0,.3);
-      z-index: 3;
-    }
-    .lid-disk::before {
-      content: "";
-      position: absolute; left: 50%; top: 50%;
-      width: 58%; height: 58%;
-      margin: -29% 0 0 -29%;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,.22);
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
-      pointer-events: none;
-    }
-    .lid-disk::after {
-      content: "";
-      position: absolute; left: 50%; top: 50%;
-      width: 22%; height: 22%;
-      margin: -11% 0 0 -11%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,.35), rgba(80,70,60,.4));
-      pointer-events: none;
-    }
-    .lid-band {
-      position: absolute;
-      top: 11px; left: 0; right: 0;
-      height: 36px;
-      border-radius: 4px 4px 6px 6px;
-      /* BIG horizontal screw threads — unmistakable */
-      background:
-        repeating-linear-gradient(
-          180deg,
-          #e8e2d6 0px,
-          #e8e2d6 2px,
-          #b0a898 2px,
-          #b0a898 3px,
-          #6a6458 3px,
-          #6a6458 6px,
-          #c8c0b4 6px,
-          #c8c0b4 7px,
-          #4e4a40 7px,
-          #4e4a40 10px
-        );
-      border: 1px solid rgba(255,255,255,.28);
-      box-shadow:
-        inset 0 2px 0 rgba(255,255,255,.35),
-        inset 4px 0 10px rgba(0,0,0,.28),
-        inset -4px 0 10px rgba(0,0,0,.28),
-        inset 0 -4px 8px rgba(0,0,0,.45),
-        0 6px 14px rgba(0,0,0,.35);
-      z-index: 2;
-      overflow: hidden;
-    }
-    .lid-band::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(90deg,
-        rgba(0,0,0,.35) 0%,
-        transparent 18%,
-        rgba(255,255,255,.12) 45%,
-        transparent 70%,
-        rgba(0,0,0,.35) 100%);
-      pointer-events: none;
-    }
-    .lid-band::after {
-      content: "";
-      position: absolute; left: 14%; right: 14%; top: 5px; height: 7px;
-      border-radius: 40%;
-      background: rgba(255,255,255,.2);
-      filter: blur(1.5px);
-      pointer-events: none;
-    }
-
-    .mason-lid.lid-open {
-      animation: lidUnscrew 1.4s cubic-bezier(0.4, 0.05, 0.2, 1) forwards;
-    }
-    .mason-lid.lid-close {
-      animation: lidScrew 1.5s cubic-bezier(0.33, 1, 0.4, 1) forwards;
-    }
-    @keyframes lidUnscrew {
-      0%   { transform: rotate(0deg) translateY(0) translateX(0) rotateX(0deg); }
-      14%  { transform: rotate(-100deg) translateY(-5px) translateX(0) rotateX(0deg); }
-      28%  { transform: rotate(-200deg) translateY(-11px) translateX(1px) rotateX(2deg); }
-      42%  { transform: rotate(-300deg) translateY(-17px) translateX(3px) rotateX(4deg); }
-      56%  { transform: rotate(-400deg) translateY(-26px) translateX(6px) rotateX(8deg); }
-      72%  { transform: rotate(-520deg) translateY(-44px) translateX(12px) rotateX(14deg); }
-      100% { transform: rotate(-640deg) translateY(-88px) translateX(20px) rotateX(20deg); filter: drop-shadow(0 16px 20px rgba(200,190,170,.35)); }
-    }
-    @keyframes lidScrew {
-      0%   { transform: rotate(-640deg) translateY(-88px) translateX(20px) rotateX(20deg); filter: drop-shadow(0 16px 20px rgba(200,190,170,.35)); }
-      28%  { transform: rotate(-520deg) translateY(-44px) translateX(12px) rotateX(12deg); }
-      44%  { transform: rotate(-400deg) translateY(-26px) translateX(6px) rotateX(6deg); }
-      58%  { transform: rotate(-300deg) translateY(-17px) translateX(3px) rotateX(3deg); }
-      72%  { transform: rotate(-200deg) translateY(-11px) translateX(1px) rotateX(1deg); }
-      86%  { transform: rotate(-100deg) translateY(-5px) translateX(0) rotateX(0deg); }
-      100% { transform: rotate(0deg) translateY(0) translateX(0) rotateX(0deg); filter: drop-shadow(0 6px 10px rgba(0,0,0,.45)); }
-    }
-
-    /* ===== GLASS NECK ===== */
-    .jar-neck {
-      position: absolute;
-      top: 40px; left: 50%;
-      width: 90px; height: 28px;
-      margin-left: -45px;
-      z-index: 5;
-      border-radius: 4px 4px 2px 2px;
-      background:
-        linear-gradient(90deg,
-          rgba(255,255,255,.06) 0%,
-          rgba(255,255,255,.42) 28%,
-          rgba(200,220,210,.18) 55%,
-          rgba(255,255,255,.08) 100%);
-      border: 1.5px solid rgba(230,240,235,.55);
-      border-bottom: none;
-      box-shadow: inset 0 0 10px rgba(255,255,255,.12);
-    }
-    .jar-neck::before,
-    .jar-neck::after {
-      content: "";
-      position: absolute; left: 6px; right: 6px; height: 2px;
-      border-radius: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
-    }
-    .jar-neck::before { top: 7px; }
-    .jar-neck::after { top: 14px; opacity: .65; }
-
-    /* ===== CYLINDRICAL GLASS BODY ===== */
-    .mason-body,
-    .jar-body {
-      position: absolute;
-      top: 60px; left: 50%;
-      width: 148px; height: 214px;
-      margin-left: -74px;
-      z-index: 3;
-      border-radius: 12px 12px 44px 44px / 10px 10px 54px 54px;
-      background:
-        linear-gradient(108deg,
-          rgba(255,255,255,.62) 0%,
-          rgba(255,255,255,.18) 9%,
-          rgba(255,255,255,.04) 22%,
-          rgba(140,175,160,.08) 45%,
-          rgba(15,20,18,.12) 68%,
-          rgba(255,250,235,.1) 88%,
-          rgba(255,255,255,.3) 100%),
-        linear-gradient(180deg,
-          rgba(245,250,248,.2) 0%,
-          rgba(50,60,55,.06) 35%,
-          rgba(110,181,164,.12) 100%);
-      border: 1.5px solid rgba(245,250,248,.65);
-      box-shadow:
-        inset 18px 0 32px rgba(255,255,255,.35),
-        inset -20px 0 34px rgba(0,0,0,.18),
-        inset 0 2px 0 rgba(255,255,255,.25),
-        inset 0 -30px 40px rgba(224,181,122,.07),
-        0 0 0 1px rgba(255,255,255,.08),
-        0 22px 40px rgba(0,0,0,.38);
-      overflow: hidden;
-      transition: filter .35s ease, box-shadow .35s ease;
-      perspective: 800px;
-      transform-style: preserve-3d;
-    }
-    .mason-body.is-receiving-mail {
-      overflow: visible;
-    }
-    .jar-body::before {
-      content: "";
-      position: absolute; inset: 5px 6px 8px 6px;
-      border-radius: 8px 8px 38px 38px / 6px 6px 46px 46px;
-      border: 1px solid rgba(255,255,255,.12);
-      pointer-events: none; z-index: 2;
-      box-shadow: inset 0 0 20px rgba(255,255,255,.06);
-    }
-    .mason-body.is-pulse {
-      filter: brightness(1.12);
-      box-shadow:
-        inset 16px 0 28px rgba(255,255,255,.3),
-        inset -18px 0 30px rgba(0,0,0,.18),
-        0 0 42px rgba(224,181,122,.45);
-    }
-    .jar-body-rings {
-      position: absolute; inset: 12% 8% 16% 8%; z-index: 2; pointer-events: none;
-      background: repeating-linear-gradient(
-        180deg,
-        transparent 0 22px,
-        rgba(255,255,255,.08) 22px 23px
-      );
-      opacity: .55;
-      border-radius: inherit;
-    }
-    .jar-shine-l {
-      position: absolute; top: 8%; left: 8%; width: 12%; height: 62%;
-      border-radius: 40px; z-index: 4; pointer-events: none;
-      background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.05) 75%, transparent);
-    }
-    .jar-shine-r {
-      position: absolute; top: 16%; right: 11%; width: 3px; height: 40%;
-      border-radius: 4px; z-index: 4; pointer-events: none;
-      background: rgba(255,255,255,.28);
-    }
-    .jar-mouth {
-      position: absolute; top: 0; left: 10%; right: 10%; height: 8px; z-index: 4;
-      border-radius: 0 0 50% 50%;
-      background: linear-gradient(180deg, rgba(255,255,255,.3), transparent);
-      pointer-events: none;
-    }
-
-    #jar {
-      position: absolute;
-      inset: 8% 9% 7% 9%;
-      z-index: 1;
-      overflow: hidden;
-      border-radius: 6px 6px 34px 34px / 4px 4px 40px 40px;
-      background:
-        radial-gradient(ellipse at 50% 100%, rgba(224,181,122,.16), transparent 55%),
-        radial-gradient(ellipse at 50% 70%, rgba(110,181,164,.08), transparent 50%);
-      perspective: 560px;
-    }
-    .jar-notes { position: absolute; inset: 0; transform-style: preserve-3d; }
-    .jar-note {
-      position: absolute; width: 70px; height: 28px;
-      border-radius: 1px 2px 1px 1px;
-      transform-origin: center bottom;
-      transform-style: preserve-3d;
-      animation: noteBreath 5.2s ease-in-out infinite alternate;
-      box-shadow: 0 7px 12px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.5);
-      clip-path: polygon(0 0, 86% 0, 100% 16%, 100% 100%, 0 100%);
-      opacity: .97;
-    }
-    .jar-note::before {
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background:
-        linear-gradient(118deg, transparent 44%, rgba(0,0,0,.1) 49%, rgba(255,255,255,.3) 52%, transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.35), transparent 48%);
-    }
-    .jar-note::after {
-      content: ""; position: absolute; left: 10%; right: 22%; top: 30%; height: 32%;
-      background: rgba(70,50,30,.1); box-shadow: 0 3px 0 rgba(70,50,30,.07);
-      transform: rotate(-1.5deg); pointer-events: none;
-    }
-    .jar-note .fold {
-      position: absolute; top: 0; right: 0; width: 12px; height: 12px;
-      background: linear-gradient(135deg, transparent 48%, rgba(0,0,0,.18) 50%, rgba(255,255,255,.2) 100%);
-    }
-    .jar-note { transform: rotateX(var(--tilt,56deg)) rotateZ(var(--r,0deg)); }
-    @keyframes noteBreath {
-      from { transform: rotateX(var(--tilt,56deg)) rotateZ(var(--r,0deg)) translateY(0); }
-      to { transform: rotateX(calc(var(--tilt,56deg) - 4deg)) rotateZ(calc(var(--r,0deg) + 2deg)) translateY(-4px); }
-    }
-    .n1{left:6%;bottom:8%;--r:-16deg;--tilt:58deg;width:80px;background:linear-gradient(145deg,#fff1c8,#e8c06a)}
-    .n2{left:30%;bottom:6%;--r:12deg;--tilt:60deg;width:74px;background:linear-gradient(145deg,#ffc4d4,#e8799a);animation-delay:-.7s}
-    .n3{left:48%;bottom:12%;--r:-6deg;--tilt:55deg;width:76px;background:linear-gradient(145deg,#c8ebff,#6eb5d8);animation-delay:-1.3s}
-    .n4{left:10%;bottom:20%;--r:20deg;--tilt:54deg;width:70px;background:linear-gradient(145deg,#ddd0ff,#a890e8);animation-delay:-.3s}
-    .n5{left:36%;bottom:24%;--r:-18deg;--tilt:62deg;width:72px;background:linear-gradient(145deg,#b8f5d8,#5ecfa8);animation-delay:-1.7s}
-    .n6{left:4%;bottom:32%;--r:8deg;--tilt:52deg;width:66px;background:linear-gradient(145deg,#ffd0bc,#e89478);animation-delay:-2.1s}
-    .n7{left:50%;bottom:30%;--r:24deg;--tilt:59deg;width:70px;background:linear-gradient(145deg,#fff6c0,#e0c060);animation-delay:-2.6s}
-    .n8{left:22%;bottom:38%;--r:-10deg;--tilt:53deg;width:64px;background:linear-gradient(145deg,#d0f0ff,#86c4e0);animation-delay:-1.1s}
-
-    /* ===== MEMORY ENVELOPE (opens to receive a letter) ===== */
+    /* ===== HERO ENVELOPE (replaces jar) ===== */
     .memory-envelope {
-      position: absolute;
-      left: 50%;
-      top: 44px;
-      width: 118px;
-      height: 78px;
-      margin-left: -59px;
+      position: relative;
+      width: min(240px, 72vw);
+      height: min(160px, 48vw);
       z-index: 3;
       transform-origin: 50% 100%;
       transform-style: preserve-3d;
-      transform: translateY(0) rotate(-3deg) scale(1);
+      transform: translateY(0) rotate(-2deg) scale(1);
       transition: transform .55s cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
       animation: envIdle 5.5s ease-in-out infinite alternate;
-      /* no filter on this node — filter flattens child 3D (flap rotateX) */
     }
     .memory-envelope::after {
       content: "";
       position: absolute;
-      left: 8%; right: 8%; bottom: -10px; height: 18px;
+      left: 10%; right: 10%; bottom: -14px; height: 22px;
       border-radius: 50%;
-      background: rgba(0,0,0,.35);
-      filter: blur(8px);
+      background: rgba(0,0,0,.4);
+      filter: blur(10px);
       z-index: 0;
       pointer-events: none;
-      opacity: .7;
+      opacity: .75;
     }
     @keyframes envIdle {
-      from { transform: translateY(0) rotate(-3deg) scale(1); }
-      to { transform: translateY(-5px) rotate(2deg) scale(1.03); }
+      from { transform: translateY(0) rotate(-2deg) scale(1); }
+      to { transform: translateY(-8px) rotate(2deg) scale(1.03); }
     }
     .memory-envelope.is-receiving {
       animation: none;
-      transform: translateY(-48px) rotate(0deg) scale(1.16);
-      z-index: 9;
+      transform: translateY(-10px) rotate(0deg) scale(1.08);
+      z-index: 5;
     }
     .memory-envelope.is-closing {
       animation: none;
-      transform: translateY(-16px) rotate(-1deg) scale(1.06);
-      z-index: 9;
+      transform: translateY(-4px) rotate(-1deg) scale(1.04);
+      z-index: 5;
     }
     .memory-envelope.is-settled {
       animation: envIdle 5.5s ease-in-out infinite alternate;
-      transform: translateY(0) rotate(-3deg) scale(1);
+      transform: translateY(0) rotate(-2deg) scale(1);
       z-index: 3;
+    }
+    .memory-envelope.is-pulse {
+      animation: none;
+      transform: translateY(-4px) scale(1.05);
+    }
+    .memory-envelope.is-pulse .env-back {
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.4),
+        0 14px 28px rgba(0,0,0,.4),
+        0 0 36px rgba(224,181,122,.45);
     }
     .env-back {
       position: absolute; inset: 0;
-      border-radius: 3px 3px 5px 5px;
+      border-radius: 6px 6px 8px 8px;
       background:
-        linear-gradient(160deg, #f7efe0 0%, #e8d7b8 45%, #d4c19a 100%);
+        linear-gradient(160deg, #f9f1e2 0%, #ead8b6 42%, #d4bf96 100%);
       box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.35),
-        0 10px 18px rgba(0,0,0,.35);
+        inset 0 0 0 1px rgba(255,255,255,.4),
+        0 16px 32px rgba(0,0,0,.4);
       z-index: 1;
     }
     .env-pocket {
       position: absolute; inset: 0;
       z-index: 2;
       overflow: hidden;
-      border-radius: 3px 3px 5px 5px;
-      clip-path: polygon(0 28%, 50% 62%, 100% 28%, 100% 100%, 0 100%);
+      border-radius: 6px 6px 8px 8px;
+      clip-path: polygon(0 30%, 50% 64%, 100% 30%, 100% 100%, 0 100%);
       background:
-        linear-gradient(180deg, rgba(210,190,150,.35), transparent 40%),
+        linear-gradient(180deg, rgba(210,190,150,.38), transparent 42%),
         linear-gradient(155deg, #efe2c8, #d9c4a0 70%, #c9b28a);
-      box-shadow: inset 0 8px 14px rgba(80,55,25,.12);
+      box-shadow: inset 0 10px 18px rgba(80,55,25,.14);
     }
     .env-letter-peek {
       position: absolute;
-      left: 14%; right: 14%;
-      top: 16%;
-      height: 58%;
+      left: 12%; right: 12%;
+      top: 14%;
+      height: 62%;
       z-index: 2;
-      border-radius: 2px;
+      border-radius: 3px;
       background:
-        repeating-linear-gradient(180deg, transparent 0 7px, rgba(120,90,50,.08) 7px 8px),
+        repeating-linear-gradient(180deg, transparent 0 9px, rgba(120,90,50,.09) 9px 10px),
         linear-gradient(180deg, #fffaf0, #f0e4cc);
-      box-shadow: 0 2px 6px rgba(0,0,0,.12);
+      box-shadow: 0 3px 8px rgba(0,0,0,.14);
       opacity: 0;
-      transform: translateY(18px) scale(.96);
+      transform: translateY(22px) scale(.96);
       transition: opacity .35s ease, transform .55s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .memory-envelope.has-letter .env-letter-peek {
@@ -589,7 +304,7 @@
     }
     .memory-envelope.is-receiving .env-letter-peek {
       opacity: 0;
-      transform: translateY(22px) scale(.9);
+      transform: translateY(28px) scale(.9);
       transition: none;
     }
     .env-front {
@@ -597,7 +312,7 @@
       z-index: 3;
       pointer-events: none;
       background:
-        linear-gradient(155deg, transparent 42%, rgba(180,150,100,.18) 50%, transparent 58%);
+        linear-gradient(155deg, transparent 42%, rgba(180,150,100,.16) 50%, transparent 58%);
     }
     .env-front::before,
     .env-front::after {
@@ -606,18 +321,18 @@
       bottom: 0;
       width: 72%;
       height: 78%;
-      background: linear-gradient(180deg, #f3e8d2, #dfcba8 55%, #cbb48a);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.35);
+      background: linear-gradient(180deg, #f4ead4, #dfcba8 55%, #cbb48a);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
     }
     .env-front::before {
       left: 0;
       clip-path: polygon(0 0, 0 100%, 100% 100%);
-      border-radius: 0 0 0 5px;
+      border-radius: 0 0 0 8px;
     }
     .env-front::after {
       right: 0;
       clip-path: polygon(100% 0, 0 100%, 100% 100%);
-      border-radius: 0 0 5px 0;
+      border-radius: 0 0 8px 0;
       background: linear-gradient(200deg, #efe0c4, #d4bc92 60%, #c2a878);
     }
     .env-flap {
@@ -636,10 +351,10 @@
       position: absolute; inset: 0;
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       background:
-        linear-gradient(180deg, #fff6e6 0%, #ead7b4 48%, #c9ad80 100%);
+        linear-gradient(180deg, #fff8ea 0%, #ead7b4 48%, #c9ad80 100%);
       box-shadow:
-        inset 0 2px 0 rgba(255,255,255,.45),
-        0 6px 12px rgba(0,0,0,.22);
+        inset 0 2px 0 rgba(255,255,255,.5),
+        0 8px 16px rgba(0,0,0,.22);
       backface-visibility: hidden;
     }
     .env-flap::after {
@@ -650,7 +365,7 @@
         linear-gradient(0deg, #d8c29a 0%, #c4a878 55%, #a88e62 100%);
       transform: rotateX(180deg);
       backface-visibility: hidden;
-      box-shadow: inset 0 -2px 6px rgba(0,0,0,.2);
+      box-shadow: inset 0 -2px 8px rgba(0,0,0,.22);
     }
     .memory-envelope.is-open .env-flap {
       transform: rotateX(-175deg);
@@ -665,15 +380,15 @@
     .env-seal {
       position: absolute;
       left: 50%; top: 40%;
-      width: 26px; height: 26px;
-      margin: -13px 0 0 -13px;
+      width: 38px; height: 38px;
+      margin: -19px 0 0 -19px;
       z-index: 6;
       border-radius: 50%;
       background:
         radial-gradient(circle at 35% 30%, #e8a070, #c4785a 45%, #8a3e2e 100%);
       box-shadow:
-        0 3px 8px rgba(0,0,0,.4),
-        inset 0 1px 2px rgba(255,255,255,.4),
+        0 4px 12px rgba(0,0,0,.42),
+        inset 0 1px 3px rgba(255,255,255,.45),
         0 0 0 1px rgba(120,50,30,.35);
       transform: scale(1);
       opacity: 1;
@@ -686,23 +401,23 @@
       content: "✦";
       position: absolute; inset: 0;
       display: grid; place-items: center;
-      font-size: 11px; color: rgba(255,235,210,.9);
+      font-size: 15px; color: rgba(255,235,210,.92);
       text-shadow: 0 1px 1px rgba(0,0,0,.25);
       line-height: 1;
     }
     .memory-envelope.is-open .env-seal,
     .memory-envelope.is-receiving .env-seal {
-      transform: scale(0.15) translateY(-22px);
+      transform: scale(0.12) translateY(-28px);
       opacity: 0;
       pointer-events: none;
     }
     .memory-envelope.is-closing .env-seal {
-      transform: scale(1.2);
+      transform: scale(1.22);
       opacity: 1;
       box-shadow:
-        0 3px 10px rgba(0,0,0,.45),
-        inset 0 1px 2px rgba(255,255,255,.45),
-        0 0 22px rgba(196,120,90,.65);
+        0 4px 14px rgba(0,0,0,.48),
+        inset 0 1px 3px rgba(255,255,255,.5),
+        0 0 28px rgba(196,120,90,.7);
       transition:
         transform 0.75s cubic-bezier(0.34, 1.45, 0.64, 1) 0.4s,
         opacity 0.35s ease 0.35s,
@@ -712,20 +427,21 @@
       transform: scale(1);
       opacity: 1;
       box-shadow:
-        0 3px 8px rgba(0,0,0,.4),
-        inset 0 1px 2px rgba(255,255,255,.4),
+        0 4px 12px rgba(0,0,0,.42),
+        inset 0 1px 3px rgba(255,255,255,.45),
         0 0 0 1px rgba(120,50,30,.35);
     }
     .env-glow {
       position: absolute;
-      left: 4%; right: 4%; top: 8%; bottom: 4%;
+      left: 0; right: 0; top: 0; bottom: 0;
       border-radius: 50%;
       background: radial-gradient(ellipse, rgba(224,181,122,.55), transparent 70%);
       opacity: 0;
       z-index: 0;
       pointer-events: none;
       transition: opacity .5s ease;
-      filter: blur(10px);
+      filter: blur(14px);
+      transform: scale(1.15);
     }
     .memory-envelope.is-open .env-glow,
     .memory-envelope.is-receiving .env-glow {
@@ -733,19 +449,18 @@
       animation: envGlowPulse 1.1s ease-in-out infinite alternate;
     }
     @keyframes envGlowPulse {
-      from { opacity: .5; transform: scale(.88); }
-      to { opacity: 1; transform: scale(1.2); }
+      from { opacity: .45; transform: scale(1.05); }
+      to { opacity: 1; transform: scale(1.28); }
     }
 
     .jar-count {
       position: relative; z-index: 2; text-align: center;
-      margin-top: .75rem; font-size: .84rem; color: var(--muted);
+      margin-top: .85rem; font-size: .84rem; color: var(--muted);
     }
     .jar-count strong { color: var(--sand); font-weight: 600; }
 
     @media (prefers-reduced-motion: reduce) {
-      .ember, .jar-base-glow, .jar-note, .memory-envelope, .env-glow { animation: none !important; }
-      .mason-lid.lid-open, .mason-lid.lid-close { animation-duration: .01ms !important; }
+      .ember, .jar-base-glow, .memory-envelope, .env-glow { animation: none !important; }
       .env-flap, .env-seal, .memory-envelope { transition-duration: .01ms !important; }
     }
 
@@ -923,8 +638,8 @@
       .brand-mark { width:36px; height:36px; }
       .brand-name { font-size:1.2rem; }
       .panel { padding:1rem .9rem; border-radius:16px; }
-      .jar-scene { height:330px; width:min(230px,76vw); padding-top:80px; }
-      .jar-assembly { transform: scale(.92); transform-origin: bottom center; }
+      .jar-scene { height:250px; width:min(260px,88vw); }
+      .memory-envelope { width:min(210px,78vw); height:min(140px,52vw); }
       .form-panel h2 { font-size:1.4rem; }
       .field textarea { min-height:92px; padding:.8rem .85rem; font-size:.9rem; }
       .anon-toggle { width:100%; max-width:230px; }
@@ -960,10 +675,10 @@
     <header class="top">
       <a class="brand" href="index.html">
         <div class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M8 4h8v3H8V4Z" opacity="0.7"/>
-            <path d="M7 7h10v12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7Z"/>
-            <path d="M10 12h4M10 15h3" stroke-linecap="round" opacity="0.55"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55">
+            <path d="M3.5 8.5 12 14l8.5-5.5"/>
+            <path d="M4 8h16v10a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18V8Z"/>
+            <path d="M4 8l8 5.5L20 8" opacity="0.7"/>
           </svg>
         </div>
         <div>
@@ -991,47 +706,22 @@
       <p class="hero-sub">Залиш те, що залишилось між <span class="glow">серцем і словами</span> — анонімно або з іменем. Історії зберігаються в спільній базі.</p>
     </section>
 
-    <section class="stage" aria-label="Банка і форма">
+    <section class="stage" aria-label="Конверт і форма">
       <div class="panel jar-panel">
-        <div class="jar-caption">Банка памʼяті</div>
-        <div class="jar-scene" role="img" aria-label="Скляна банка з конвертом і папірцями">
+        <div class="jar-caption">Конверт несказаного</div>
+        <div class="jar-scene" role="img" aria-label="Конверт для несказаних листів">
           <div class="jar-base-glow" aria-hidden="true"></div>
-          <div class="jar-assembly">
-            <div class="mason-lid" id="jarLid" aria-hidden="true">
-              <div class="lid-disk"></div>
-              <div class="lid-band"></div>
-            </div>
-            <div class="jar-neck" aria-hidden="true"></div>
-            <div class="jar-body mason-body" id="jarVisual">
-              <div class="jar-mouth" aria-hidden="true"></div>
-              <div class="jar-body-rings" aria-hidden="true"></div>
-              <div class="jar-shine-l" aria-hidden="true"></div>
-              <div class="jar-shine-r" aria-hidden="true"></div>
-              <div id="jar">
-                <div class="jar-notes" id="jarNotes" aria-hidden="true">
-                  <div class="jar-note n1"><span class="fold"></span></div>
-                  <div class="jar-note n2"><span class="fold"></span></div>
-                  <div class="jar-note n3"><span class="fold"></span></div>
-                  <div class="jar-note n4"><span class="fold"></span></div>
-                  <div class="jar-note n5"><span class="fold"></span></div>
-                  <div class="jar-note n6"><span class="fold"></span></div>
-                  <div class="jar-note n7"><span class="fold"></span></div>
-                  <div class="jar-note n8"><span class="fold"></span></div>
-                </div>
-              </div>
-              <div class="memory-envelope has-letter" id="jarEnvelope" aria-hidden="true">
-                <div class="env-glow"></div>
-                <div class="env-back"></div>
-                <div class="env-letter-peek"></div>
-                <div class="env-pocket"></div>
-                <div class="env-front"></div>
-                <div class="env-flap"></div>
-                <div class="env-seal"></div>
-              </div>
-            </div>
+          <div class="memory-envelope has-letter" id="jarEnvelope" aria-hidden="true">
+            <div class="env-glow"></div>
+            <div class="env-back"></div>
+            <div class="env-letter-peek"></div>
+            <div class="env-pocket"></div>
+            <div class="env-front"></div>
+            <div class="env-flap"></div>
+            <div class="env-seal"></div>
           </div>
         </div>
-        <p class="jar-count">Зараз у банці: <strong id="jarCount">0</strong></p>
+        <p class="jar-count">Листів у конверті: <strong id="jarCount">0</strong></p>
       </div>
 
       <div class="panel form-panel">
@@ -1059,7 +749,7 @@
             <span class="char-count" id="charCount">0 / 320</span>
           </div>
           <div class="form-actions">
-            <button type="submit" class="submit-btn" id="submitBtn"><span class="btn-label">Відправити в банку</span></button>
+            <button type="submit" class="submit-btn" id="submitBtn"><span class="btn-label">Відправити в конверт</span></button>
           </div>
           <p class="form-note">Мінімум 8 слів і зміст. Без цифр і «привіт, як справи».</p>
         </form>
@@ -1191,10 +881,6 @@
     var readerText = document.getElementById("readerText");
     var readerAuthor = document.getElementById("readerAuthor");
     var readerTime = document.getElementById("readerTime");
-    var jarLid = document.getElementById("jarLid");
-    var jarVisual = document.getElementById("jarVisual");
-    var jarNotes = document.getElementById("jarNotes");
-    var jarEl = document.getElementById("jar");
     var jarEnvelope = document.getElementById("jarEnvelope");
     var btnLabel = submitBtn.querySelector(".btn-label");
 
@@ -1333,7 +1019,7 @@
     function renderStories(highlightId) {
       updateCounters();
       if (!stories.length) {
-        storiesEl.innerHTML = '<div class="empty-state">Банка поки порожня. Будь першим.</div>';
+        storiesEl.innerHTML = '<div class="empty-state">Конверт поки порожній. Будь першим.</div>';
         return;
       }
       var sorted = stories.slice().sort(function (a, b) { return b.createdAt - a.createdAt; });
@@ -1353,38 +1039,17 @@
       }).join("");
     }
 
-    var lidTimer = null;
     var envelopeTimer = null;
-
-    function openJarLid() {
-      if (lidTimer) { clearTimeout(lidTimer); lidTimer = null; }
-      jarLid.classList.remove("lid-close");
-      void jarLid.offsetWidth;
-      jarLid.classList.add("lid-open");
-    }
-
-    function closeJarLid() {
-      if (lidTimer) { clearTimeout(lidTimer); lidTimer = null; }
-      jarLid.classList.remove("lid-open");
-      void jarLid.offsetWidth;
-      jarLid.classList.add("lid-close");
-      lidTimer = setTimeout(function () {
-        jarLid.classList.remove("lid-close");
-        lidTimer = null;
-      }, 1500);
-    }
 
     function openEnvelope() {
       if (!jarEnvelope) return;
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
-      jarVisual.classList.add("is-receiving-mail");
-      jarEnvelope.classList.remove("is-closing", "is-settled", "has-letter");
+      jarEnvelope.classList.remove("is-closing", "is-settled", "has-letter", "is-pulse");
       jarEnvelope.classList.add("is-receiving", "is-open");
     }
 
     function closeEnvelope(done) {
       if (!jarEnvelope) {
-        jarVisual.classList.remove("is-receiving-mail");
         if (done) done();
         return;
       }
@@ -1396,29 +1061,10 @@
         jarEnvelope.classList.add("is-settled");
         envelopeTimer = setTimeout(function () {
           jarEnvelope.classList.remove("is-settled");
-          jarVisual.classList.remove("is-receiving-mail");
           envelopeTimer = null;
           if (done) done();
         }, 450);
       }, 1050);
-    }
-
-    function addJarNote(tone) {
-      var el = document.createElement("div");
-      el.className = "jar-note";
-      el.innerHTML = '<span class="fold"></span>';
-      el.style.background = NOTE_COLORS[tone] || NOTE_COLORS["tone-amber"];
-      el.style.left = 8 + Math.random() * 55 + "%";
-      el.style.bottom = 10 + Math.random() * 40 + "%";
-      el.style.width = 68 + Math.random() * 24 + "px";
-      el.style.height = 24 + Math.random() * 8 + "px";
-      el.style.setProperty("--r", (-34 + Math.random() * 68) + "deg");
-      el.style.setProperty("--tilt", (52 + Math.random() * 16) + "deg");
-      el.style.opacity = "0";
-      el.style.transition = "opacity .4s ease";
-      jarNotes.appendChild(el);
-      requestAnimationFrame(function () { el.style.opacity = "0.98"; });
-      while (jarNotes.children.length > 16) jarNotes.removeChild(jarNotes.firstChild);
     }
 
     function addRipple(e) {
@@ -1434,25 +1080,22 @@
     }
 
     function animateToJar(flyer, tone, done) {
-      var jarRect = jarEl.getBoundingClientRect();
-      var envRect = jarEnvelope ? jarEnvelope.getBoundingClientRect() : jarRect;
+      var envRect = jarEnvelope.getBoundingClientRect();
       var startX = parseFloat(flyer.style.left);
       var startY = parseFloat(flyer.style.top);
       var startW = parseFloat(flyer.style.width);
       var startH = parseFloat(flyer.style.height);
-      var endW = 64, endH = 42;
+      var endW = 88, endH = 58;
       var targetX = envRect.left + envRect.width / 2 - endW / 2;
-      var targetY = envRect.top + envRect.height * 0.28 - endH / 2;
+      var targetY = envRect.top + envRect.height * 0.22 - endH / 2;
       var midX = (startX + targetX) / 2;
       var midY = Math.min(startY, targetY) - 140;
-      var spin = (targetX < startX ? -1 : 1) * (160 + Math.random() * 80);
-      var foldMs = 560, flyMs = 1500;
+      var spin = (targetX < startX ? -1 : 1) * (140 + Math.random() * 70);
+      var foldMs = 560, flyMs = 1450;
       var foldStart = performance.now();
 
-      openJarLid();
       openEnvelope();
-      /* lid unscrews + flap opens before the letter enters */
-      var flyGate = performance.now() + 900;
+      var flyGate = performance.now() + 850;
 
       function foldFrame(nowT) {
         var t = Math.min(1, (nowT - foldStart) / foldMs);
@@ -1462,7 +1105,7 @@
         flyer.style.width = w + "px";
         flyer.style.height = h + "px";
         flyer.style.borderRadius = (12 - ease * 9) + "px";
-        flyer.style.fontSize = (0.9 - ease * 0.5) + "rem";
+        flyer.style.fontSize = (0.9 - ease * 0.48) + "rem";
         flyer.style.left = (startX + (startW - w) / 2) + "px";
         flyer.style.top = (startY + (startH - h) / 2) + "px";
         flyer.style.transform = "rotate(" + (-6 + ease * 14) + "deg) skewX(" + (Math.sin(ease * Math.PI) * -10) + "deg) scale(" + (1 - Math.sin(ease * Math.PI) * 0.12) + ")";
@@ -1473,10 +1116,9 @@
         var foldLeft = parseFloat(flyer.style.left);
         var foldTop = parseFloat(flyer.style.top);
         function startFly() {
-          /* retarget in case layout shifted while flap opened */
-          var envNow = jarEnvelope ? jarEnvelope.getBoundingClientRect() : jarEl.getBoundingClientRect();
+          var envNow = jarEnvelope.getBoundingClientRect();
           targetX = envNow.left + envNow.width / 2 - endW / 2;
-          targetY = envNow.top + envNow.height * 0.22 - endH / 2;
+          targetY = envNow.top + envNow.height * 0.18 - endH / 2;
           midX = (foldLeft + targetX) / 2;
           midY = Math.min(foldTop, targetY) - 120;
           var flyStart = performance.now();
@@ -1489,22 +1131,18 @@
             flyer.style.top = y + "px";
             flyer.style.width = endW + "px";
             flyer.style.height = endH + "px";
-            flyer.style.fontSize = "0.34rem";
+            flyer.style.fontSize = "0.36rem";
             flyer.style.borderRadius = "2px";
-            flyer.style.transform = "rotate(" + (8 + spin * ease2) + "deg) scale(" + (1 - ease2 * 0.45) + ")";
+            flyer.style.transform = "rotate(" + (8 + spin * ease2) + "deg) scale(" + (1 - ease2 * 0.42) + ")";
             flyer.style.opacity = String(u > 0.78 ? 1 - (u - 0.78) / 0.22 : 1);
             if (u < 1) {
               requestAnimationFrame(flyFrame);
               return;
             }
-            jarVisual.classList.add("is-pulse");
-            setTimeout(function () { jarVisual.classList.remove("is-pulse"); }, 520);
-            addJarNote(tone);
+            jarEnvelope.classList.add("is-pulse");
+            setTimeout(function () { jarEnvelope.classList.remove("is-pulse"); }, 520);
             flyer.remove();
-            closeEnvelope(function () {
-              closeJarLid();
-              done();
-            });
+            closeEnvelope(done);
           }
           requestAnimationFrame(flyFrame);
         }
@@ -1578,7 +1216,7 @@
           input.style.opacity = "1";
           if (!anon) authorName.value = "";
           updateCharCount();
-          showToast(anon ? "Анонімний папірець збережено в базі" : "Папірець від " + author + " збережено в базі");
+          showToast(anon ? "Анонімний лист збережено в конверті" : "Лист від " + author + " збережено в конверті");
           if (window.innerWidth < 860) {
             document.getElementById("wall").scrollIntoView({ behavior: "smooth", block: "start" });
           }
@@ -1588,7 +1226,7 @@
         }).then(function () {
           submitBtn.classList.remove("sending");
           submitBtn.disabled = false;
-          btnLabel.textContent = "Відправити в банку";
+          btnLabel.textContent = "Відправити в конверт";
           busy = false;
         });
       });
