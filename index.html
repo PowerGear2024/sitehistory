@@ -191,235 +191,224 @@
     }
     .jar-scene {
       position: relative; z-index: 2;
-      width: min(300px, 86vw);
-      height: 300px;
+      width: min(340px, 92vw);
+      height: 320px;
       margin: 0 auto;
       display: flex; align-items: center; justify-content: center;
       overflow: visible;
-      perspective: 1200px;
-      perspective-origin: 50% 40%;
+      perspective: 900px;
     }
     .jar-base-glow {
-      position: absolute; left: 12%; right: 12%; bottom: 18px; height: 42px; z-index: 0;
-      background: radial-gradient(ellipse at center, rgba(224,181,122,.45), rgba(110,181,164,.14) 50%, transparent 72%);
+      position: absolute; left: 10%; right: 10%; bottom: 28px; height: 48px; z-index: 0;
+      background: radial-gradient(ellipse at center, rgba(224,181,122,.5), rgba(110,181,164,.12) 55%, transparent 75%);
       filter: blur(16px);
       animation: glowPulse 3.8s ease-in-out infinite alternate;
-      will-change: opacity, transform;
     }
     @keyframes glowPulse {
       from { opacity: .35; transform: scaleX(.92); }
-      to { opacity: .9; transform: scaleX(1.08); }
+      to { opacity: .95; transform: scaleX(1.08); }
     }
 
-    /* float wrapper — idle only; pausing freezes without transform snap */
-    .env-stage {
+    /*
+     * Envelope visual adapted from CodePen:
+     * https://codepen.io/MrBlank/pen/JjXxovL
+     * "Envelope Open Animation with Hearts" by MrBlank
+     * (border-triangle flap + staggered open/close transitions)
+     * Recolored for SiteHistory; hearts replaced with soft sparks; wax seal added.
+     */
+    .envlope-wrapper {
       position: relative;
+      z-index: 2;
+      height: 280px;
+      width: 100%;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
+      padding-top: 36px;
       transform-style: preserve-3d;
-      animation: envIdle 6s ease-in-out infinite alternate;
-      will-change: transform;
-    }
-    .env-stage.is-busy {
-      animation-play-state: paused;
-    }
-    @keyframes envIdle {
-      from { transform: translate3d(0, 0, 0) rotate(-1.5deg); }
-      to { transform: translate3d(0, -6px, 0) rotate(1.5deg); }
     }
 
-    /* ===== HERO ENVELOPE ===== */
-    .memory-envelope {
+    #envelope {
       position: relative;
-      width: min(240px, 72vw);
-      height: min(160px, 48vw);
-      z-index: 3;
-      transform-origin: 50% 80%;
+      width: 280px;
+      height: 180px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      background:
+        linear-gradient(165deg, #efe2c6 0%, #e0cba0 45%, #cbb48a 100%);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255,255,255,.35);
       transform-style: preserve-3d;
-      perspective: 900px;
-      perspective-origin: 50% 0%;
-      transform: translateZ(0) scale(1);
+    }
+
+    #envelope .front {
+      position: absolute;
+      width: 0;
+      height: 0;
+      z-index: 3;
+    }
+
+    #envelope .flap {
+      border-left: 140px solid transparent;
+      border-right: 140px solid transparent;
+      border-bottom: 82px solid transparent;
+      border-top: 98px solid #f3e6cc;
+      transform-origin: top;
       pointer-events: none;
-      will-change: transform;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,.12));
     }
-    .memory-envelope.is-receiving {
-      animation: envLift .55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+    #envelope .pocket {
+      border-left: 140px solid #e8d5b0;
+      border-right: 140px solid #e8d5b0;
+      border-bottom: 90px solid #d7c098;
+      border-top: 90px solid transparent;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
     }
-    .memory-envelope.is-closing {
-      animation: envSettle .7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+
+    #envelope .letter {
+      position: relative;
+      background: linear-gradient(180deg, #fffaf2, #f4ebd8);
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      height: 90%;
+      top: 5%;
+      border-radius: 6px;
+      box-shadow: 0 2px 26px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
     }
-    @keyframes envLift {
-      from { transform: translateZ(0) scale(1); }
-      to { transform: translate3d(0, -6px, 0) scale(1.04); }
+
+    #envelope .letter-body {
+      position: relative;
+      z-index: 1;
+      padding: 18px 16px 12px;
+      font-family: var(--font-display);
+      font-size: .78rem;
+      line-height: 1.35;
+      color: rgba(40, 30, 20, .72);
+      height: 100%;
     }
-    @keyframes envSettle {
-      from { transform: translate3d(0, -6px, 0) scale(1.04); }
-      to { transform: translateZ(0) scale(1); }
-    }
-    .memory-envelope::after {
+
+    #envelope .letter:after {
       content: "";
       position: absolute;
-      left: 12%; right: 12%; bottom: -12px; height: 18px;
-      border-radius: 50%;
-      background: rgba(0,0,0,.38);
-      filter: blur(9px);
-      z-index: 0;
+      inset: 0;
+      background-image: linear-gradient(180deg, rgba(255,255,255,0) 20%, rgba(224,181,122,.18) 55%, rgba(203,180,138,.55) 100%);
       pointer-events: none;
-      opacity: .7;
     }
-    .env-back {
-      position: absolute; inset: 0;
-      border-radius: 6px 6px 8px 8px;
-      background:
-        linear-gradient(160deg, #f9f1e2 0%, #ead8b6 42%, #d4bf96 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.4),
-        0 16px 32px rgba(0,0,0,.38);
+
+    #envelope .words {
+      position: absolute;
+      left: 10%;
+      width: 80%;
+      height: 10%;
+      background-color: rgba(180,160,130,.28);
+      border-radius: 2px;
       z-index: 1;
     }
-    .env-pocket {
-      position: absolute; inset: 0;
-      z-index: 2;
-      overflow: hidden;
-      border-radius: 6px 6px 8px 8px;
-      clip-path: polygon(0 30%, 50% 64%, 100% 30%, 100% 100%, 0 100%);
-      background:
-        linear-gradient(180deg, rgba(210,190,150,.38), transparent 42%),
-        linear-gradient(155deg, #efe2c8, #d9c4a0 70%, #c9b28a);
-      box-shadow: inset 0 10px 18px rgba(80,55,25,.14);
-    }
-    .env-letter-peek {
-      position: absolute;
-      left: 12%; right: 12%;
-      top: 14%;
-      height: 62%;
-      z-index: 2;
-      border-radius: 3px;
-      background:
-        repeating-linear-gradient(180deg, transparent 0 9px, rgba(120,90,50,.09) 9px 10px),
-        linear-gradient(180deg, #fffaf0, #f0e4cc);
-      box-shadow: 0 3px 8px rgba(0,0,0,.14);
-      opacity: 0;
-      transform: translate3d(0, 18px, 0);
-      transition: opacity .4s ease, transform .55s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .memory-envelope.has-letter .env-letter-peek {
-      opacity: .92;
-      transform: translate3d(0, 0, 0);
-    }
-    .memory-envelope.is-receiving .env-letter-peek,
-    .memory-envelope.is-open .env-letter-peek {
-      opacity: 0;
-      transform: translate3d(0, 24px, 0);
-      transition: opacity .25s ease, transform .35s ease;
-    }
-    .env-front {
-      position: absolute; inset: 0;
-      z-index: 3;
-      pointer-events: none;
-    }
-    .env-front::before,
-    .env-front::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      width: 72%;
-      height: 78%;
-      background: linear-gradient(180deg, #f4ead4, #dfcba8 55%, #cbb48a);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
-    }
-    .env-front::before {
-      left: 0;
-      clip-path: polygon(0 0, 0 100%, 100% 100%);
-      border-radius: 0 0 0 8px;
-    }
-    .env-front::after {
-      right: 0;
-      clip-path: polygon(100% 0, 0 100%, 100% 100%);
-      border-radius: 0 0 8px 0;
-      background: linear-gradient(200deg, #efe0c4, #d4bc92 60%, #c2a878);
-    }
+    #envelope .words.line1 { top: 18%; width: 28%; height: 6%; }
+    #envelope .words.line2 { top: 34%; }
+    #envelope .words.line3 { top: 50%; }
+    #envelope .words.line4 { top: 66%; width: 55%; }
 
-    /* flap — rotateX driven by JS rAF */
-    .env-flap {
-      position: absolute;
-      left: 0; right: 0; top: 0;
-      height: 54%;
-      z-index: 5;
-      transform-origin: 50% 0%;
-      transform-style: preserve-3d;
-      transform: translateZ(1px) rotateX(0deg);
-      will-change: transform;
-      /* do NOT set backface-visibility on the flap itself —
-         it hides the whole element past 90deg and looks like a hang/snap */
-    }
-    .env-flap::before {
-      content: "";
-      position: absolute; inset: 0;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      background:
-        linear-gradient(180deg, #fff8ea 0%, #ead7b4 48%, #c9ad80 100%);
-      box-shadow:
-        inset 0 2px 0 rgba(255,255,255,.5),
-        0 6px 14px rgba(0,0,0,.18);
-      backface-visibility: hidden;
-    }
-    .env-flap::after {
-      content: "";
-      position: absolute; inset: 0;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      background:
-        linear-gradient(0deg, #d8c29a 0%, #c4a878 55%, #a88e62 100%);
+    /* Open / close — staggered transitions from the CodePen technique */
+    #envelope.open .flap {
       transform: rotateX(180deg);
-      backface-visibility: hidden;
-      box-shadow: inset 0 -2px 8px rgba(0,0,0,.2);
+      transition: transform .45s ease, z-index .65s;
+      z-index: 1;
+      filter: none;
     }
-    .memory-envelope.is-open:not(.is-closing) .env-flap { z-index: 1; }
-    .memory-envelope.is-closing .env-flap { z-index: 5; }
+    #envelope.close .flap {
+      transform: rotateX(0deg);
+      transition: transform .45s .55s ease, z-index 1s;
+      z-index: 5;
+    }
+    #envelope.close .letter {
+      transform: translateY(0);
+      transition: transform .45s ease, z-index 1s;
+      z-index: 1;
+    }
+    #envelope.open .letter {
+      transform: translateY(-62px);
+      transition: transform .45s .55s ease, z-index .65s;
+      z-index: 2;
+    }
 
-
-    .env-seal {
+    #envelope .wax-seal {
       position: absolute;
-      left: 50%; top: 40%;
-      width: 38px; height: 38px;
-      margin: -19px 0 0 -19px;
+      left: 50%;
+      top: 78px;
+      width: 42px;
+      height: 42px;
+      margin: -21px 0 0 -21px;
       z-index: 6;
       border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 30%, #e8a070, #c4785a 45%, #8a3e2e 100%);
+      background: radial-gradient(circle at 35% 30%, #e8a070, #c4785a 48%, #8a3e2e 100%);
       box-shadow:
-        0 4px 12px rgba(0,0,0,.42),
-        inset 0 1px 3px rgba(255,255,255,.45),
+        0 4px 12px rgba(0,0,0,.4),
+        inset 0 1px 3px rgba(255,255,255,.4),
         0 0 0 1px rgba(120,50,30,.35);
-      transform: translateZ(0) scale(1);
-      opacity: 1;
-      will-change: transform, opacity;
+      transition: opacity .35s ease, transform .4s ease;
+      pointer-events: none;
     }
-    .env-seal::before {
+    #envelope .wax-seal::before {
       content: "✦";
       position: absolute; inset: 0;
       display: grid; place-items: center;
       font-size: 15px; color: rgba(255,235,210,.92);
-      text-shadow: 0 1px 1px rgba(0,0,0,.25);
       line-height: 1;
     }
-
-
-    .env-glow {
-      position: absolute;
-      left: 8%; right: 8%; top: 10%; bottom: 8%;
-      border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(224,181,122,.4), transparent 70%);
+    #envelope.open .wax-seal {
       opacity: 0;
-      z-index: 0;
-      pointer-events: none;
-      transform: translateZ(0);
-      transition: opacity .45s ease;
+      transform: scale(.35) translateY(-12px);
+      transition: opacity .25s ease, transform .3s ease;
     }
-    .memory-envelope.is-open .env-glow,
-    .memory-envelope.is-receiving .env-glow {
-      opacity: .85;
+    #envelope.close .wax-seal {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      transition: opacity .35s .7s ease, transform .45s .7s cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+
+    #envelope .sparks {
+      position: absolute;
+      top: 90px;
+      left: 0; right: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    #envelope .spark {
+      position: absolute;
+      bottom: 0;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f0d4a8, #c4785a);
+      box-shadow: 0 0 10px rgba(224,181,122,.7);
+      opacity: 0;
+    }
+    #envelope.close .spark {
+      opacity: 0;
+      animation: none;
+    }
+    #envelope.open .spark.s1 {
+      left: 22%;
+      animation: sparkRise 2.8s ease-out .55s 1 forwards;
+    }
+    #envelope.open .spark.s2 {
+      left: 52%;
+      width: 10px; height: 10px;
+      animation: sparkRise 3.2s ease-out .7s 1 forwards;
+    }
+    #envelope.open .spark.s3 {
+      left: 72%;
+      animation: sparkRise 2.6s ease-out .6s 1 forwards;
+    }
+    @keyframes sparkRise {
+      0% { opacity: 0; transform: translateY(0) scale(.6); }
+      15% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-140px) scale(1.1); }
     }
 
     .jar-count {
@@ -429,8 +418,8 @@
     .jar-count strong { color: var(--sand); font-weight: 600; }
 
     @media (prefers-reduced-motion: reduce) {
-      .ember, .jar-base-glow, .env-stage, .memory-envelope, .env-flap, .env-seal, .env-glow { animation: none !important; }
-      .env-letter-peek { transition-duration: .01ms !important; }
+      .ember, .jar-base-glow, #envelope .spark { animation: none !important; }
+      #envelope .flap, #envelope .letter, #envelope .wax-seal { transition-duration: .01ms !important; transition-delay: 0s !important; }
     }
 
 
@@ -608,8 +597,19 @@
       .brand-mark { width:36px; height:36px; }
       .brand-name { font-size:1.2rem; }
       .panel { padding:1rem .9rem; border-radius:16px; }
-      .jar-scene { height:250px; width:min(260px,88vw); }
-      .memory-envelope { width:min(210px,78vw); height:min(140px,52vw); }
+      .jar-scene { height:270px; width:min(300px,92vw); }
+      .envlope-wrapper { height: 240px; padding-top: 24px; }
+      #envelope { width: 240px; height: 154px; }
+      #envelope .flap {
+        border-left-width: 120px; border-right-width: 120px;
+        border-bottom-width: 70px; border-top-width: 84px;
+      }
+      #envelope .pocket {
+        border-left-width: 120px; border-right-width: 120px;
+        border-bottom-width: 77px; border-top-width: 77px;
+      }
+      #envelope .wax-seal { top: 66px; width: 36px; height: 36px; margin: -18px 0 0 -18px; }
+      #envelope.open .letter { transform: translateY(-52px); }
       .form-panel h2 { font-size:1.4rem; }
       .field textarea { min-height:92px; padding:.8rem .85rem; font-size:.9rem; }
       .anon-toggle { width:100%; max-width:230px; }
@@ -681,15 +681,23 @@
         <div class="jar-caption">Конверт несказаного</div>
         <div class="jar-scene" role="img" aria-label="Конверт для несказаних листів">
           <div class="jar-base-glow" aria-hidden="true"></div>
-          <div class="env-stage" id="envStage">
-            <div class="memory-envelope has-letter" id="jarEnvelope" aria-hidden="true">
-              <div class="env-glow"></div>
-              <div class="env-back"></div>
-              <div class="env-letter-peek"></div>
-              <div class="env-pocket"></div>
-              <div class="env-front"></div>
-              <div class="env-flap"></div>
-              <div class="env-seal"></div>
+          <div class="envlope-wrapper">
+            <div id="envelope" class="close" aria-hidden="true">
+              <div class="front flap"></div>
+              <div class="front pocket"></div>
+              <div class="letter">
+                <div class="words line1"></div>
+                <div class="words line2"></div>
+                <div class="words line3"></div>
+                <div class="words line4"></div>
+                <div class="letter-body" id="envLetterText"></div>
+              </div>
+              <div class="wax-seal"></div>
+              <div class="sparks" aria-hidden="true">
+                <div class="spark s1"></div>
+                <div class="spark s2"></div>
+                <div class="spark s3"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -853,8 +861,8 @@
     var readerText = document.getElementById("readerText");
     var readerAuthor = document.getElementById("readerAuthor");
     var readerTime = document.getElementById("readerTime");
-    var jarEnvelope = document.getElementById("jarEnvelope");
-    var envStage = document.getElementById("envStage");
+    var envelope = document.getElementById("envelope");
+    var envLetterText = document.getElementById("envLetterText");
     var btnLabel = submitBtn.querySelector(".btn-label");
 
     var stories = [];
@@ -1013,82 +1021,35 @@
     }
 
     var envelopeTimer = null;
-    var flapEl = jarEnvelope ? jarEnvelope.querySelector(".env-flap") : null;
-    var sealEl = jarEnvelope ? jarEnvelope.querySelector(".env-seal") : null;
-    var flapAngle = 0;
-    var flapRaf = 0;
 
     function easeInOutCubic(t) {
       return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    function setFlapAngle(deg) {
-      flapAngle = deg;
-      if (!flapEl) return;
-      flapEl.style.transform = "translateZ(1px) rotateX(" + deg + "deg)";
-      if (deg > 90) flapEl.style.zIndex = "1";
-      else flapEl.style.zIndex = "5";
-    }
-
-    function animateFlap(toDeg, duration, done) {
-      if (flapRaf) cancelAnimationFrame(flapRaf);
-      var from = flapAngle;
-      var start = performance.now();
-      function frame(now) {
-        var t = Math.min(1, (now - start) / duration);
-        var e = easeInOutCubic(t);
-        setFlapAngle(from + (toDeg - from) * e);
-        if (t < 1) {
-          flapRaf = requestAnimationFrame(frame);
-        } else {
-          flapRaf = 0;
-          setFlapAngle(toDeg);
-          if (done) done();
-        }
-      }
-      flapRaf = requestAnimationFrame(frame);
-    }
-
-    function setSealOpen(open) {
-      if (!sealEl) return;
-      if (open) {
-        sealEl.style.transition = "transform .35s cubic-bezier(0.4,0,1,1), opacity .3s ease";
-        sealEl.style.transform = "translate3d(0,-10px,0) scale(0.2)";
-        sealEl.style.opacity = "0";
-      } else {
-        sealEl.style.transition = "transform .55s cubic-bezier(0.22,1,0.36,1), opacity .35s ease";
-        sealEl.style.transform = "translateZ(0) scale(1)";
-        sealEl.style.opacity = "1";
-      }
-    }
-
-    function openEnvelope() {
-      if (!jarEnvelope) return;
+    function openEnvelope(previewText) {
+      if (!envelope) return;
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
-      if (envStage) envStage.classList.add("is-busy");
-      jarEnvelope.classList.remove("is-closing", "has-letter");
-      jarEnvelope.classList.add("is-receiving", "is-open");
-      setSealOpen(true);
-      animateFlap(-165, 900);
+      if (envLetterText) {
+        var t = String(previewText || "").trim();
+        envLetterText.textContent = t ? (t.slice(0, 110) + (t.length > 110 ? "…" : "")) : "";
+      }
+      envelope.classList.remove("close");
+      envelope.classList.add("open");
     }
 
     function closeEnvelope(done) {
-      if (!jarEnvelope) {
+      if (!envelope) {
         if (done) done();
         return;
       }
       if (envelopeTimer) { clearTimeout(envelopeTimer); envelopeTimer = null; }
-      jarEnvelope.classList.add("is-closing", "has-letter");
-      jarEnvelope.classList.remove("is-open", "is-receiving");
-      animateFlap(0, 850, function () {
-        setSealOpen(false);
-      });
+      envelope.classList.remove("open");
+      envelope.classList.add("close");
       envelopeTimer = setTimeout(function () {
-        jarEnvelope.classList.remove("is-closing");
-        if (envStage) envStage.classList.remove("is-busy");
         envelopeTimer = null;
+        if (envLetterText) envLetterText.textContent = "";
         if (done) done();
-      }, 1000);
+      }, 1100);
     }
 
     function addRipple(e) {
@@ -1111,11 +1072,13 @@
         h: parseFloat(flyer.dataset.h)
       };
       var endW = 86, endH = 56;
-      var foldMs = 360, flyMs = 1150;
+      var foldMs = 340, flyMs = 1050;
       var foldStart = performance.now();
+      var preview = flyer.textContent || "";
 
-      openEnvelope();
-      var flyGate = performance.now() + 880;
+      openEnvelope(preview);
+      /* wait for flap open (~.45s) + letter rise start before flying in */
+      var flyGate = performance.now() + 700;
 
       function setFlyer(x, y, w, h, rot, scl, opacity) {
         flyer.style.transform =
@@ -1143,12 +1106,12 @@
         var foldTop = startRect.top + (startRect.h - endH) / 2;
 
         function startFly() {
-          var envNow = jarEnvelope.getBoundingClientRect();
+          var envNow = envelope.getBoundingClientRect();
           var targetX = envNow.left + envNow.width / 2 - endW / 2;
-          var targetY = envNow.top + envNow.height * 0.16 - endH / 2;
+          var targetY = envNow.top + envNow.height * 0.15 - endH / 2;
           var midX = (foldLeft + targetX) / 2;
-          var midY = Math.min(foldTop, targetY) - 110;
-          var spin = (targetX < foldLeft ? -1 : 1) * 100;
+          var midY = Math.min(foldTop, targetY) - 100;
+          var spin = (targetX < foldLeft ? -1 : 1) * 90;
           var flyStart = performance.now();
 
           function flyFrame(now2) {
@@ -1156,8 +1119,8 @@
             var e2 = easeInOutCubic(u);
             var x = (1 - e2) * (1 - e2) * foldLeft + 2 * (1 - e2) * e2 * midX + e2 * e2 * targetX;
             var y = (1 - e2) * (1 - e2) * foldTop + 2 * (1 - e2) * e2 * midY + e2 * e2 * targetY;
-            var opacity = u > 0.82 ? 1 - (u - 0.82) / 0.18 : 1;
-            setFlyer(x, y, endW, endH, 6 + spin * e2, 1 - e2 * 0.38, opacity);
+            var opacity = u > 0.8 ? 1 - (u - 0.8) / 0.2 : 1;
+            setFlyer(x, y, endW, endH, 6 + spin * e2, 1 - e2 * 0.4, opacity);
             flyer.style.fontSize = "0.34rem";
             flyer.style.borderRadius = "2px";
             if (u < 1) {
@@ -1165,7 +1128,8 @@
               return;
             }
             flyer.remove();
-            closeEnvelope(done);
+            /* brief hold with letter up, then close */
+            setTimeout(function () { closeEnvelope(done); }, 420);
           }
           requestAnimationFrame(flyFrame);
         }
